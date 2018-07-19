@@ -17,28 +17,19 @@
   <h1 class="text-center my-2">Open Weather and Google Maps API Playground</h1>
   <form class="form-inline">
     <div class="form-group mb-2 mx-auto">
-      <input type="text" class="form-control my-2" id="cityInput" placeholder="Enter City Name">
+      <input type="text" class="form-control my-2" id="cityInput" placeholder="Enter Location">
       <button type="submit" class="btn btn-primary ml-2">Go</button>
     </div>
 
   </form>
-  <p class="alert mx-auto py-2 px-4 d-none">Please Enter Valid City Name</p>
 
-  <p class="alert d-none">Please Enter Valid City</p>
+  <p class="alert mx-auto py-2 px-4 d-none">Please Enter Valid Location</p>
   <div class="display"></div>
 
 
   <div id="map"></div>
-  <script>
-    var map;
-    function initMap() {
-      map = new google.maps.Map(document.getElementById('map'), {
-        center: { lat: -34.397, lng: 150.644 },
-        zoom: 8
-      });
-    }
-  </script>
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyATPSbFvHa14zbdf5HYoPBO4jCwteR8GfM&callback=initMap"></script>
+
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyATPSbFvHa14zbdf5HYoPBO4jCwteR8GfM"></script>
 
   <!-- Optional JavaScript -->
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
