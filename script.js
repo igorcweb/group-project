@@ -40,8 +40,14 @@ function getWeather() {
       console.log(data);
       var f = fahrenheit(tempKelvin) + '°F';
       var c = celsius(tempKelvin) + '°C';
+      var h = data.main.humidity + '%';
       var output = document.createElement('div');
-      output.innerHTML = `<p class="text-center mt-2">The Current temperature in ${city} is ${f}, ${c}</p>`;
+      output.setAttribute('class', 'text-center mt-2');
+      output.innerHTML = `
+      <h4 class="text-center mt-2">Weather in ${city}:</h4> 
+      <p>Current Temperature: ${f} / ${c}</p>
+      <p>Humidity: ${h}</p>
+      `;
       display.appendChild(output);
     })
     .catch(function(error) {
