@@ -27,4 +27,6 @@ span#address {
 
 .btn.fc {
   border-radius: 50%;
+  width: 1.7rem;
+  margin-left: 2px;
 }

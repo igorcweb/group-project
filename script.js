@@ -146,14 +146,14 @@ function getWeather() {
       var tempMin = F
         ? fahrenheit(data.main.temp_min) + '°F'
         : celsius(data.main.temp_min) + '°C';
-      var cfButton = F ? 'C' : 'F';
+      var cfButton = F ? '°C' : '°F';
       console.log(data);
       var h = data.main.humidity + '%';
       var output = document.createElement('div');
       output.setAttribute('class', 'text-center mt-2');
       output.innerHTML = `
       <h4 class="text-center mt-2">Weather in <span id="address">${address}</span>:</h4> 
-      <p>Today's Temperature: ${tempMax} / ${tempMin} <span><button class="fc py-0 px-1 btn btn-primary">${cfButton}</button></span></p>
+      <p>Today's Temperature: ${tempMax} / ${tempMin} <span><button class="fc p-0 btn btn-primary">${cfButton}</button></span></p>
       <p>Humidity: ${h}</p>
       `;
       display.appendChild(output);
@@ -169,7 +169,6 @@ display.addEventListener('click', function(e) {
     console.log(e.target);
     F = !F;
     getWeather();
-    console.log(F);
   }
 });
 
