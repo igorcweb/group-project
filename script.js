@@ -15,14 +15,9 @@ var lng;
 var F = true; // Set degrees to Fahrenheit
 var localTime;
 var mapDisplay = document.querySelector('#map');
-// var infoContent;
-// var infowindow = new google.maps.InfoWindow({
-//   content: infoContent
-// });
 
 // map and marker function
 function initializeMap() {
-  // mapDisplay.classList.remove('d-none');
   var mapOptions = {
     center: {
       lat: parseFloat(lat),
