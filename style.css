@@ -20,3 +20,11 @@ body {
   text-align: center;
   width: fit-content;
 }
+
+span#address {
+  text-transform: capitalize;
+}
+
+.btn.fc {
+  border-radius: 50%;
+}

@@ -1,15 +1,20 @@
 // Open weather API Key
-var api_key = '7b371ff33bf7c8589f05eb50e8efe90c';
+var ow_api_key = '7b371ff33bf7c8589f05eb50e8efe90c';
+var gm_api_key = 'AIzaSyATPSbFvHa14zbdf5HYoPBO4jCwteR8GfM';
 
 var cityInput = document.querySelector('#cityInput');
 var go = document.querySelector('button[type=submit]');
 var alert = document.querySelector('.alert');
-var display = document.querySelector('.display');
+var display = document.querySelector('#display');
 var url;
 var city;
 var address;
 var marker;
 var map;
+var lat;
+var lng;
+var F = true; // Set degrees to Fahrenheit
+var currentTime;
 var mapDisplay = document.querySelector('#map');
 // var infoContent;
 // var infowindow = new google.maps.InfoWindow({
@@ -18,7 +23,7 @@ var mapDisplay = document.querySelector('#map');
 
 // map and marker function
 function initializeMap() {
-  mapDisplay.classList.remove('d-none');
+  // mapDisplay.classList.remove('d-none');
   var mapOptions = {
     center: {
       lat: parseFloat(lat),
@@ -28,6 +33,7 @@ function initializeMap() {
     // disableDefaultUI: true,
     zoomControl: true
   };
+
   //create map
   map = new google.maps.Map(document.getElementById('map'), mapOptions);
 
@@ -47,11 +53,11 @@ function initializeMap() {
 
 go.addEventListener('click', function(e) {
   e.preventDefault();
+  var regex = /^[a-zA-Z,. ]+$/;
   address = cityInput.value.replace('.', '').trim();
-  console.log('address: ', address);
-  if (address) {
-    url = `http://api.openweathermap.org/data/2.5/weather?q=${address}&APPID=${api_key}`;
-    getWeather();
+  if (address && address.match(regex)) {
+    console.log('address: ', address);
+    url = `http://api.openweathermap.org/data/2.5/weather?q=${address}&APPID=${ow_api_key}`;
     var geocoder = new google.maps.Geocoder();
     geocoder.geocode(
       {
@@ -61,26 +67,51 @@ go.addEventListener('click', function(e) {
         if (status === google.maps.GeocoderStatus.OK) {
           lat = results[0].geometry.location.lat();
           lng = results[0].geometry.location.lng();
-          // loadWeather();
+          var tzUrl = `https://maps.googleapis.com/maps/api/timezone/json?location=${lat},${lng}&timestamp=1458000000&key=${gm_api_key}`;
+          function getTimeZone() {
+            axios
+              .get(tzUrl)
+              .then(function(res) {
+                console.log('timezone: ', res.data.timeZoneId);
+                var timeZone = res.data.timeZoneId.toString();
+                console.log('timezone: ', timeZone);
+                currentTime = moment.tz(timeZone).format('h:mm a');
+                console.log('current time: ', currentTime);
+              })
+              .catch(function(error) {
+                console.log(error);
+              });
+          }
+          getTimeZone();
+
           // updateInputs();
-          // focusMarker();
-          // focusMap();
+          getWeather();
           initializeMap();
           focusMap();
           focusMarker();
           google.maps.event.addListener(marker, 'dragend', function() {
             lat = marker.position.lat();
             lng = marker.position.lng();
-            //loadWeather();
-            //updateInputs();
             focusMap();
           });
         }
       }
     );
     cityInput.value = '';
+  } else if (address) {
+    validation();
   }
 });
+
+function validation() {
+  console.log('validation running');
+  cityInput.value = '';
+  mapDisplay.classList.add('d-none');
+  alert.classList.remove('d-none');
+  setTimeout(function() {
+    alert.classList.add('d-none');
+  }, 4000);
+}
 
 function focusMap() {
   map.setCenter(marker.position);
@@ -109,27 +140,39 @@ function getWeather() {
     .then(function(res) {
       display.innerHTML = '';
       var data = res.data;
-      var tempKelvin = data.main.temp;
+      var tempMax = F
+        ? fahrenheit(data.main.temp_max) + '°F'
+        : celsius(data.main.temp_max) + '°C';
+      var tempMin = F
+        ? fahrenheit(data.main.temp_min) + '°F'
+        : celsius(data.main.temp_min) + '°C';
+      var cfButton = F ? 'C' : 'F';
       console.log(data);
-      var f = fahrenheit(tempKelvin) + '°F';
-      var c = celsius(tempKelvin) + '°C';
       var h = data.main.humidity + '%';
       var output = document.createElement('div');
       output.setAttribute('class', 'text-center mt-2');
       output.innerHTML = `
-      <h4 class="text-center mt-2">Weather in ${address}:</h4> 
-      <p>Current Temperature: ${f} / ${c}</p>
+      <h4 class="text-center mt-2">Weather in <span id="address">${address}</span>:</h4> 
+      <p>Today's Temperature: ${tempMax} / ${tempMin} <span><button class="fc py-0 px-1 btn btn-primary">${cfButton}</button></span></p>
       <p>Humidity: ${h}</p>
       `;
       display.appendChild(output);
     })
     .catch(function(error) {
+      validation();
       console.log(error);
-      mapDisplay.classList.add('d-none');
-      display.innerHTML = '';
-      alert.classList.remove('d-none');
-      setTimeout(function() {
-        alert.classList.add('d-none');
-      }, 2000);
     });
 }
+
+display.addEventListener('click', function(e) {
+  if (e.target && e.target.classList.contains('fc')) {
+    console.log(e.target);
+    F = !F;
+    getWeather();
+    console.log(F);
+  }
+});
+
+var dateString = moment.unix(1532037360).format('MM/DD/YYYY h:mm:ss a');
+
+console.log('dateString: ', dateString);
