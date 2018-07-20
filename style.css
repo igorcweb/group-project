@@ -21,10 +21,6 @@ body {
   width: fit-content;
 }
 
-span#address {
-  text-transform: capitalize;
-}
-
 .btn.fc {
   border-radius: 50%;
   width: 1.7rem;
