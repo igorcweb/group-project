@@ -67,7 +67,7 @@ function initializeMap() {
 }
 
 function integrateGoogleMaps(address) {
-  owUrl = `http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&APPID=${ow_api_key}`;
+  owUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&APPID=${ow_api_key}`;
   var geocoder = new google.maps.Geocoder();
   geocoder.geocode(
     {
@@ -99,15 +99,15 @@ function integrateGoogleMaps(address) {
         mapDisplay.classList.remove('d-none');
 
         getWeather();
+        getVenues();
         initializeMap();
         focusMap();
         focusMarker();
         google.maps.event.addListener(marker, 'dragend', function() {
           lat = marker.position.lat();
           lng = marker.position.lng();
-          //Get address from coordinates
+          //Get address from coordinates with geocode
           axios
-            //Google Maps Geocode
             .get(
               `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=AIzaSyATPSbFvHa14zbdf5HYoPBO4jCwteR8GfM`
             )
@@ -124,6 +124,36 @@ function integrateGoogleMaps(address) {
       }
     }
   );
+}
+
+function getVenues() {
+  var date = moment().format('YYYYMMDD');
+  var fsqId = 'KJJTGGS4TT053WQY0KCUNSE1F2E5OJD3VLFSPEE505GQ11WL';
+  var fsqSecret = 'EJ3M4LML42LW3SWSALG0ZAQ4OJ3QESIY3BHHGVWRXCM4UQBK';
+  var fSqUrl = `https://api.foursquare.com/v2/venues/search?ll=${lat},${lng}&client_id=${fsqId}&client_secret=${fsqSecret}&v=${date}`;
+
+  axios
+    .get(fSqUrl)
+    .then(function(res) {
+      var data = res.data.response.venues;
+      console.log('venues: ', data);
+      data.forEach(function(venue) {
+        // icons
+        var icons = venue.categories[0];
+        if (icons) {
+          console.log('icons: ', venue.categories[0].icon.prefix + '64.png');
+        }
+        //categories
+        var categories = venue.categories[0].name;
+        console.log('categories: ', categories);
+        if (categories.includes('Outdoor')) {
+          console.log('outdoor venue:', venue);
+        }
+      });
+    })
+    .catch(function(error) {
+      console.log(error);
+    });
 }
 
 go.addEventListener('click', function(e) {
@@ -198,9 +228,15 @@ function getWeather() {
       output.innerHTML = `
       <h4 class="text-center mt-2">${formattedAddress}</h4>
       <h5 class="time text-center mb-2">Local Time - ${localTime}</h5>
-
-      <p>${tempOutput} <span><button class="fc p-0 btn btn-primary">${cfButton}</button></span></p>
-      <p>Humidity: ${h}</p>
+      <div class="row">
+        <div class="col-sm weather">
+          <p>${tempOutput} <span><button class="fc p-0 btn btn-primary">${cfButton}</button></span></p>
+          <p>Humidity: ${h}</p>
+        </div>
+        <div class="col-sm venues">
+          <p>Venues Placeholder</p>
+        </div>
+      </div>
       `;
       display.appendChild(output);
     })
