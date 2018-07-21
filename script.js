@@ -17,7 +17,7 @@ var F = true; // Set degrees to Fahrenheit
 var localTime;
 var mapDisplay = document.querySelector('#map');
 
-//Get User's Location
+//Get data based on user's location
 (function getlocation() {
   var geoIpUrl = 'https://geoip-db.com/json/';
   axios
@@ -37,7 +37,6 @@ var mapDisplay = document.querySelector('#map');
     });
 })();
 
-// map and marker function
 function initializeMap() {
   var mapOptions = {
     center: {
@@ -61,13 +60,14 @@ function initializeMap() {
     map: map,
     draggable: true
   });
+  console.log('marker: ', marker);
   //call info window up
   // infowindow.open(map, marker);
   // drag event
 }
 
 function integrateGoogleMaps(address) {
-  owUrl = `http://api.openweathermap.org/data/2.5/weather?q=${address}&APPID=${ow_api_key}`;
+  owUrl = `http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&APPID=${ow_api_key}`;
   var geocoder = new google.maps.Geocoder();
   geocoder.geocode(
     {
@@ -98,7 +98,6 @@ function integrateGoogleMaps(address) {
         })();
         mapDisplay.classList.remove('d-none');
 
-        // updateInputs();
         getWeather();
         initializeMap();
         focusMap();
@@ -106,7 +105,21 @@ function integrateGoogleMaps(address) {
         google.maps.event.addListener(marker, 'dragend', function() {
           lat = marker.position.lat();
           lng = marker.position.lng();
-          focusMap();
+          //Get address from coordinates
+          axios
+            //Google Maps Geocode
+            .get(
+              `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=AIzaSyATPSbFvHa14zbdf5HYoPBO4jCwteR8GfM`
+            )
+            .then(function(res) {
+              address = res.data.results[0].formatted_address;
+              focusMap();
+              integrateGoogleMaps(address);
+              getWeather();
+            })
+            .catch(function(error) {
+              console.log(error);
+            });
         });
       }
     }
@@ -165,21 +178,28 @@ function getWeather() {
       display.innerHTML = '';
       var data = res.data;
       var tempMax = F
-        ? fahrenheit(data.main.temp_max) + '°F'
-        : celsius(data.main.temp_max) + '°C';
+        ? fahrenheit(data.main.temp_max)
+        : celsius(data.main.temp_max);
       var tempMin = F
-        ? fahrenheit(data.main.temp_min) + '°F'
-        : celsius(data.main.temp_min) + '°C';
+        ? fahrenheit(data.main.temp_min)
+        : celsius(data.main.temp_min);
       var cfButton = F ? 'C' : 'F';
+      var degree = F ? '°F' : '°C';
       console.log(data);
       var h = data.main.humidity + '%';
       var output = document.createElement('div');
       output.setAttribute('class', 'text-center mt-2');
+      //Only display min and max temperatures if they are different
+      var tempOutput =
+        tempMax !== tempMin
+          ? `${tempMax}${degree} / ${tempMin}${degree}`
+          : tempMax + degree;
+      console.log('tempOutput: ', tempOutput);
       output.innerHTML = `
       <h4 class="text-center mt-2">${formattedAddress}</h4>
       <h5 class="time text-center mb-2">Local Time - ${localTime}</h5>
 
-      <p>Today's Temperature: ${tempMax} / ${tempMin} <span><button class="fc p-0 btn btn-primary">${cfButton}</button></span></p>
+      <p>${tempOutput} <span><button class="fc p-0 btn btn-primary">${cfButton}</button></span></p>
       <p>Humidity: ${h}</p>
       `;
       display.appendChild(output);
@@ -197,6 +217,7 @@ display.addEventListener('click', function(e) {
   }
 });
 
-var dateString = moment.unix(1532037360).format('MM/DD/YYYY h:mm:ss a');
+var timeStamp = moment().unix();
+var currentTime = moment.unix(timeStamp).format('MM/DD/YYYY h:mm:ss a');
 
-console.log('dateString: ', dateString);
+console.log('currentTime: ', currentTime);

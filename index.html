@@ -17,20 +17,19 @@
   <h1 class="text-center my-2">Open Weather and Google Maps API Playground</h1>
   <form class="form-inline">
     <div class="form-group mb-2 mx-auto">
-      <input type="text" class="form-control my-2" id="locInput" placeholder="Enter Location">
+      <input type="text" class="form-control my-2" id="locInput" placeholder="Change Location">
       <button type="submit" class="btn btn-primary ml-2">Go</button>
     </div>
 
   </form>
 
   <p class="alert mx-auto py-2 px-4 d-none">Please Enter Valid Location</p>
-  <div id="display"></div>
-  <div id="map"></div>
+  <div class="content">
+    <div id="display"></div>
+    <div id="map"></div>
+  </div>
 
 
-
-
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyATPSbFvHa14zbdf5HYoPBO4jCwteR8GfM"></script>
 
   <!-- Optional JavaScript -->
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -40,7 +39,10 @@
     crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em"
     crossorigin="anonymous"></script>
-  <!-- Moment Js -->
+
+  <!-- Google Maps -->
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyATPSbFvHa14zbdf5HYoPBO4jCwteR8GfM"></script>
+  <!-- Moment -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
 
   <!-- Moment Timezone -->

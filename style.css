@@ -5,6 +5,15 @@ body {
   padding: 0;
 }
 
+h1 {
+  font-size: 2rem;
+}
+
+.content.full {
+  transform: scale(1);
+  transition: 1s;
+}
+
 #map {
   height: 400px;
   width: 650px;
