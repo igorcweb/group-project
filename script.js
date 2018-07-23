@@ -63,8 +63,7 @@ function initializeMap() {
 }
 
 function integrateGoogleMaps(address) {
-  console.log('ADDRESS:', address);
-  owUrl = `https://api.openweathermap.org/data/2.5/weather?q=${address}&APPID=${ow_api_key}`;
+  owUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&APPID=${ow_api_key}`;
   var geocoder = new google.maps.Geocoder();
   geocoder.geocode(
     {
@@ -112,6 +111,7 @@ function integrateGoogleMaps(address) {
               focusMap();
               integrateGoogleMaps(address);
               getWeather();
+              getTimeZone();
             })
             .catch(function(error) {
               console.log(error);
@@ -178,8 +178,11 @@ function getVenues() {
             case category.includes('salon'):
               console.log('salon: ', category);
               break;
-            case category.includes('store'):
-              console.log('store: ', category);
+            case category.includes('gift'):
+              console.log('gift: ', category);
+              break;
+            case category.includes('shop'):
+              console.log('shop: ', category);
               break;
             case category.includes('food'):
               console.log('food: ', category);
@@ -196,20 +199,23 @@ function getVenues() {
             case category.includes('library'):
               console.log('libraries: ', category);
               break;
+            case category.includes('trail'):
+              console.log('trail: ', category);
+              break;
+            case category.includes('ski'):
+              console.log('ski: ', category);
+              break;
+            case category.includes('historic'):
+              console.log('historic: ', category);
+              break;
+            case category.includes('landmark'):
+              console.log('landmark: ', category);
+              break;
+            case category.includes('monument'):
+              console.log('monument: ', category);
+              break;
           }
         }
-
-        // icons
-        // var icons = venue.categories[0];
-        // if (icons) {
-        //   console.log('icons: ', venue.categories[0].icon.prefix + '64.png');
-        // }
-        // //categories
-        // var categories = venue.categories[0];
-        // console.log('categories: ', categories.name);
-        // if (categories && categories.name.includes('Outdoor')) {
-        //   console.log('outdoor venue:', venue);
-        // }
       });
     })
     .catch(function(error) {
@@ -275,7 +281,6 @@ function getWeather() {
       var tempMin = F
         ? fahrenheit(data.main.temp_min)
         : celsius(data.main.temp_min);
-      var cfButton = F ? 'C' : 'F';
       var degree = F ? '°F' : '°C';
       console.log(data);
       var h = data.main.humidity + '%';
@@ -295,7 +300,9 @@ function getWeather() {
           <p>Venues Placeholder</p>
         </div>
         <div class="col-sm weather">
-          <p>${tempOutput} <span><button class="fc p-0 btn btn-primary">${cfButton}</button></span></p>
+          <p>${tempOutput} 
+
+          </p>
           <p>Humidity: ${h}</p>
         </div>
       </div>
@@ -307,8 +314,15 @@ function getWeather() {
     });
 }
 
-display.addEventListener('click', function(e) {
-  if (e.target && e.target.classList.contains('fc')) {
+// display.addEventListener('click', function(e) {
+//   if (e.target && e.target.classList.contains('fc')) {
+//     F = !F;
+//     getWeather();
+//   }
+// });
+
+document.addEventListener('click', function(e) {
+  if (e.target && e.target.classList.contains('set-temp')) {
     F = !F;
     getWeather();
   }

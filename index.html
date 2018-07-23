@@ -15,6 +15,10 @@
 
 <body>
   <h1 class="text-center my-2">Open Weather and Google Maps API Playground</h1>
+  <div class="set-temp">
+    <input class="set-temp" type="checkbox" value="none" id="setTemp" name="check" />
+    <label for="setTemp"></label>
+  </div>
   <form class="form-inline">
     <div class="form-group mb-2 mx-auto">
       <input type="text" class="form-control my-2" id="locInput" placeholder="Change Location">
@@ -25,7 +29,9 @@
 
   <p class="alert mx-auto py-2 px-5 d-none">Please Enter Valid Location</p>
   <div class="content">
-    <div id="display"></div>
+    <div id="display">
+
+    </div>
     <div id="map"></div>
   </div>
 
