@@ -138,17 +138,68 @@ function getVenues() {
       var data = res.data.response.venues;
       console.log('venues: ', data);
       data.forEach(function(venue) {
+        if (venue.categories[0]) {
+          var category = venue.categories[0].name.toLowerCase();
+          switch (true) {
+            case category.includes('restaurant') || category.includes('grill'):
+              console.log('restaurants: ', category);
+              break;
+            case category.includes('outdoor'):
+              console.log('outdoors: ', category);
+              break;
+            case category.includes('library'):
+              console.log('libraries: ', category);
+              break;
+            case category.includes('coffee'):
+              console.log('coffee house: ', category);
+              break;
+            case category.includes('sport'):
+              console.log('sports: ', category);
+              break;
+            case category.includes('yoga'):
+              console.log('yoga: ', category);
+              break;
+            case category.includes('gym'):
+              console.log('gym: ', category);
+              break;
+            case category.includes('hotel'):
+              console.log('hotels: ', category);
+              break;
+            case category.includes('tour'):
+              console.log('tours: ', category);
+              break;
+            case category.includes('transport'):
+              console.log('transportation: ', category);
+              break;
+            case category.includes('bank'):
+              console.log('bank: ', category);
+              break;
+            case category.includes('salon'):
+              console.log('salon: ', category);
+              break;
+            case category.includes('store'):
+              console.log('store: ', category);
+              break;
+            case category.includes('transportation'):
+              console.log('transport: ', category);
+              break;
+            case category.includes('food'):
+              console.log('food: ', category);
+              break;
+          }
+        }
+
         // icons
-        var icons = venue.categories[0];
-        if (icons) {
-          console.log('icons: ', venue.categories[0].icon.prefix + '64.png');
-        }
-        //categories
-        var categories = venue.categories[0].name;
-        console.log('categories: ', categories);
-        if (categories.includes('Outdoor')) {
-          console.log('outdoor venue:', venue);
-        }
+        // var icons = venue.categories[0];
+        // if (icons) {
+        //   console.log('icons: ', venue.categories[0].icon.prefix + '64.png');
+        // }
+        // //categories
+        // var categories = venue.categories[0];
+        // console.log('categories: ', categories.name);
+        // if (categories && categories.name.includes('Outdoor')) {
+        //   console.log('outdoor venue:', venue);
+        // }
       });
     })
     .catch(function(error) {
@@ -160,11 +211,11 @@ go.addEventListener('click', function(e) {
   e.preventDefault();
   var regex = /^[a-zA-Z,. ]+$/;
   var address = locInput.value.replace('.', '').trim();
-  if (address && address.match(regex)) {
+  if (address.match(regex)) {
     console.log('address: ', address);
     integrateGoogleMaps(address);
     locInput.value = '';
-  } else {
+  } else if (address) {
     valAlert();
   }
 });
