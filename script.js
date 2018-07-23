@@ -1,3 +1,4 @@
+'use strict';
 // Open Weather
 var ow_api_key = '7b371ff33bf7c8589f05eb50e8efe90c';
 //Google Maps
@@ -16,6 +17,10 @@ var lng;
 var F = true; // Set degrees to Fahrenheit
 var localTime;
 var mapDisplay = document.querySelector('#map');
+var sunrise;
+var sunset;
+var timeZone;
+var address;
 
 //Get data based on user's location
 (function getlocation() {
@@ -61,7 +66,20 @@ function initializeMap() {
     draggable: true
   });
 }
-
+function getTimeZone(lat, lng) {
+  var tzUrl = `https://maps.googleapis.com/maps/api/timezone/json?location=${lat},${lng}&timestamp=1458000000&key=${gm_api_key}`;
+  axios
+    .get(tzUrl)
+    .then(function(res) {
+      timeZone = res.data.timeZoneId.toString();
+      //console.log('timezone: ', timeZone);
+      localTime = moment.tz(timeZone).format('MMMM Do, h:mm a');
+      console.log('local time: ', localTime);
+    })
+    .catch(function(error) {
+      console.log(error);
+    });
+}
 function integrateGoogleMaps(address) {
   owUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&APPID=${ow_api_key}`;
   var geocoder = new google.maps.Geocoder();
@@ -82,22 +100,8 @@ function integrateGoogleMaps(address) {
         focusMarker();
         getWeather();
         getVenues();
-        getTimeZone();
-        function getTimeZone() {
-          var tzUrl = `https://maps.googleapis.com/maps/api/timezone/json?location=${lat},${lng}&timestamp=1458000000&key=${gm_api_key}`;
-          axios
-            .get(tzUrl)
-            .then(function(res) {
-              console.log('timezone: ', res.data.timeZoneId);
-              var timeZone = res.data.timeZoneId.toString();
-              console.log('timezone: ', timeZone);
-              localTime = moment.tz(timeZone).format('MMMM Do, h:mm a');
-              console.log('local time: ', localTime);
-            })
-            .catch(function(error) {
-              console.log(error);
-            });
-        }
+        getTimeZone(lat, lng);
+
         google.maps.event.addListener(marker, 'dragend', function() {
           lat = marker.position.lat();
           lng = marker.position.lng();
@@ -110,8 +114,8 @@ function integrateGoogleMaps(address) {
               address = res.data.results[0].formatted_address;
               focusMap();
               integrateGoogleMaps(address);
+              getTimeZone(lat, lng);
               getWeather();
-              getTimeZone();
             })
             .catch(function(error) {
               console.log(error);
@@ -286,7 +290,29 @@ function getWeather() {
       var h = data.main.humidity + '%';
       var output = document.createElement('div');
       output.setAttribute('class', 'text-center mt-2');
-      //Only display min and max temperatures if they are different
+      //Only display min and max temperatures if they are different      iconId = data.weather[0].icon;
+      var iconId = data.weather[0].icon;
+      console.log('iconId: ', iconId);
+      var owIcon = `http://openweathermap.org/img/w/${iconId}.png`;
+      var desc = data.weather[0].description;
+      getTimeZone(lat, lng);
+      var sunrise = moment.unix(data.sys.sunrise).format('YYYY-MM-D HH:mm');
+      var sunset = moment.unix(data.sys.sunset).format('YYYY-MM-D HH:mm');
+      console.log(sunrise, ' ', sunset, 'sunrise sunset');
+
+      sunrise = moment(sunrise).tz(timeZone);
+      sunset = moment(sunset).tz(timeZone);
+      var sunriseTz = sunrise
+        .clone()
+        .tz(timeZone)
+        .format('h:mm a');
+      var sunsetTz = sunset
+        .clone()
+        .tz(timeZone)
+        .format('h:mm a');
+      console.log('Time Zone: ', timeZone);
+      console.log('sunriseTz: ', sunriseTz);
+      console.log('sunsetTz: ', sunsetTz);
       var tempOutput =
         tempMax !== tempMin
           ? `${tempMax}${degree} / ${tempMin}${degree}`
@@ -301,9 +327,11 @@ function getWeather() {
         </div>
         <div class="col-sm weather">
           <p>${tempOutput} 
-
+          <p class="desc">${desc}</p>
+          <p><img src="${owIcon}"></p>
           </p>
           <p>Humidity: ${h}</p>
+          <p>Sunrise: ${sunriseTz} / Sunset: ${sunsetTz}<p>
         </div>
       </div>
       `;

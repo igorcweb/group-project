@@ -9,11 +9,6 @@ h1 {
   font-size: 2rem;
 }
 
-.content.full {
-  transform: scale(1);
-  transition: 1s;
-}
-
 #map {
   height: 400px;
   width: 650px;
@@ -86,4 +81,8 @@ input[type='checkbox'] {
 }
 input:checked + label {
   left: 43px;
+}
+
+p.desc {
+  text-transform: capitalize;
 }
