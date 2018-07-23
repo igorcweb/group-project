@@ -63,7 +63,8 @@ function initializeMap() {
 }
 
 function integrateGoogleMaps(address) {
-  owUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&APPID=${ow_api_key}`;
+  console.log('ADDRESS:', address);
+  owUrl = `https://api.openweathermap.org/data/2.5/weather?q=${address}&APPID=${ow_api_key}`;
   var geocoder = new google.maps.Geocoder();
   geocoder.geocode(
     {
@@ -75,8 +76,15 @@ function integrateGoogleMaps(address) {
         formattedAddress = results[0].formatted_address.replace(/[0-9]/g, '');
         lat = results[0].geometry.location.lat();
         lng = results[0].geometry.location.lng();
-        //Get timezone
-        (function() {
+        owUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&APPID=${ow_api_key}`;
+        mapDisplay.classList.remove('d-none');
+        initializeMap();
+        focusMap();
+        focusMarker();
+        getWeather();
+        getVenues();
+        getTimeZone();
+        function getTimeZone() {
           var tzUrl = `https://maps.googleapis.com/maps/api/timezone/json?location=${lat},${lng}&timestamp=1458000000&key=${gm_api_key}`;
           axios
             .get(tzUrl)
@@ -90,18 +98,11 @@ function integrateGoogleMaps(address) {
             .catch(function(error) {
               console.log(error);
             });
-        })();
-        owUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&APPID=${ow_api_key}`;
-        mapDisplay.classList.remove('d-none');
-        initializeMap();
-        focusMap();
-        focusMarker();
-        getWeather();
-        getVenues();
+        }
         google.maps.event.addListener(marker, 'dragend', function() {
           lat = marker.position.lat();
           lng = marker.position.lng();
-          //Get address from coordinates with geocode
+          //Get address from coordinates with reverse geocoding
           axios
             .get(
               `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=AIzaSyATPSbFvHa14zbdf5HYoPBO4jCwteR8GfM`
@@ -150,7 +151,6 @@ function getVenues() {
             case category.includes('park'):
               console.log('park: ', category);
               break;
-
             case category.includes('coffee'):
               console.log('coffee house: ', category);
               break;
@@ -303,7 +303,6 @@ function getWeather() {
       display.appendChild(output);
     })
     .catch(function(error) {
-      valAlert();
       console.log(error);
     });
 }
