@@ -139,10 +139,12 @@ function getVenues() {
       console.log('venues: ', data);
       data.forEach(function(venue) {
         if (venue.categories[0]) {
+          var icon = venue.categories[0].icon.prefix + '64.png';
           var category = venue.categories[0].name.toLowerCase();
           switch (true) {
             case category.includes('restaurant') || category.includes('grill'):
-              console.log('restaurants: ', category);
+              console.log('restaurants: ', venue.name);
+              console.log('icon: ', icon);
               break;
             case category.includes('outdoor'):
               console.log('outdoors: ', category);
@@ -186,6 +188,21 @@ function getVenues() {
             case category.includes('food'):
               console.log('food: ', category);
               break;
+            case category.includes('gallery'):
+              console.log('gallery: ', category);
+              break;
+            case category.includes('museum'):
+              console.log('museum: ', category);
+              break;
+            case category.includes('hall'):
+              console.log('hall: ', category);
+              break;
+            case category.includes('auditorium'):
+              console.log('auditorium: ', category);
+              break;
+            case category.includes('park'):
+              console.log('park: ', category);
+              break;
           }
         }
 
@@ -228,7 +245,7 @@ function valAlert() {
   alert.classList.remove('d-none');
   setTimeout(function() {
     alert.classList.add('d-none');
-  }, 4000);
+  }, 3000);
 }
 
 function focusMap() {
@@ -280,12 +297,12 @@ function getWeather() {
       <h4 class="text-center mt-2">${formattedAddress}</h4>
       <h5 class="time text-center mb-2">Local Time - ${localTime}</h5>
       <div class="row">
+        <div class="col-sm venues">
+          <p>Venues Placeholder</p>
+        </div>
         <div class="col-sm weather">
           <p>${tempOutput} <span><button class="fc p-0 btn btn-primary">${cfButton}</button></span></p>
           <p>Humidity: ${h}</p>
-        </div>
-        <div class="col-sm venues">
-          <p>Venues Placeholder</p>
         </div>
       </div>
       `;
