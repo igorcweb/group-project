@@ -60,10 +60,6 @@ function initializeMap() {
     map: map,
     draggable: true
   });
-  console.log('marker: ', marker);
-  //call info window up
-  // infowindow.open(map, marker);
-  // drag event
 }
 
 function integrateGoogleMaps(address) {
@@ -79,7 +75,6 @@ function integrateGoogleMaps(address) {
         formattedAddress = results[0].formatted_address.replace(/[0-9]/g, '');
         lat = results[0].geometry.location.lat();
         lng = results[0].geometry.location.lng();
-
         //Get timezone
         (function() {
           var tzUrl = `https://maps.googleapis.com/maps/api/timezone/json?location=${lat},${lng}&timestamp=1458000000&key=${gm_api_key}`;
@@ -96,13 +91,13 @@ function integrateGoogleMaps(address) {
               console.log(error);
             });
         })();
+        owUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&APPID=${ow_api_key}`;
         mapDisplay.classList.remove('d-none');
-
-        getWeather();
-        getVenues();
         initializeMap();
         focusMap();
         focusMarker();
+        getWeather();
+        getVenues();
         google.maps.event.addListener(marker, 'dragend', function() {
           lat = marker.position.lat();
           lng = marker.position.lng();
@@ -146,12 +141,16 @@ function getVenues() {
               console.log('restaurants: ', venue.name);
               console.log('icon: ', icon);
               break;
+            case category.includes('gallery'):
+              console.log('gallery: ', category);
+              break;
             case category.includes('outdoor'):
               console.log('outdoors: ', category);
               break;
-            case category.includes('library'):
-              console.log('libraries: ', category);
+            case category.includes('park'):
+              console.log('park: ', category);
               break;
+
             case category.includes('coffee'):
               console.log('coffee house: ', category);
               break;
@@ -182,14 +181,8 @@ function getVenues() {
             case category.includes('store'):
               console.log('store: ', category);
               break;
-            case category.includes('transportation'):
-              console.log('transport: ', category);
-              break;
             case category.includes('food'):
               console.log('food: ', category);
-              break;
-            case category.includes('gallery'):
-              console.log('gallery: ', category);
               break;
             case category.includes('museum'):
               console.log('museum: ', category);
@@ -200,8 +193,8 @@ function getVenues() {
             case category.includes('auditorium'):
               console.log('auditorium: ', category);
               break;
-            case category.includes('park'):
-              console.log('park: ', category);
+            case category.includes('library'):
+              console.log('libraries: ', category);
               break;
           }
         }
@@ -230,6 +223,7 @@ go.addEventListener('click', function(e) {
   var address = locInput.value.replace('.', '').trim();
   if (address.match(regex)) {
     console.log('address: ', address);
+    initializeMap();
     integrateGoogleMaps(address);
     locInput.value = '';
   } else if (address) {
