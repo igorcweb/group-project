@@ -36,6 +36,7 @@ var venues = [];
       lng = data.longitude;
       initializeMap();
       integrateGoogleMaps(address);
+      getVenues();
       getWeather();
     })
     .catch(function(error) {
