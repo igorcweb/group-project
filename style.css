@@ -96,3 +96,7 @@ ul.venues {
 ul img {
   width: 1.5rem;
 }
+
+li {
+  text-align: left;
+}
