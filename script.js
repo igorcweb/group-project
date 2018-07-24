@@ -8,6 +8,7 @@ var locInput = document.querySelector('#locInput');
 var go = document.querySelector('button[type=submit]');
 var alert = document.querySelector('.alert');
 var display = document.querySelector('#display');
+var venues = document.querySelector('.venues');
 var owUrl;
 var formattedAddress;
 var marker;
@@ -21,6 +22,7 @@ var sunrise;
 var sunset;
 var timeZone;
 var address;
+var venues = [];
 
 //Get data based on user's location
 (function getlocation() {
@@ -29,7 +31,6 @@ var address;
     .get(geoIpUrl)
     .then(function(res) {
       var data = res.data;
-      console.log(data);
       address = `${data.city}, ${data.country_name}`;
       lat = data.latitude;
       lng = data.longitude;
@@ -98,8 +99,8 @@ function integrateGoogleMaps(address) {
         initializeMap();
         focusMap();
         focusMarker();
-        getWeather();
         getVenues();
+        getWeather();
         getTimeZone(lat, lng);
 
         google.maps.event.addListener(marker, 'dragend', function() {
@@ -126,6 +127,32 @@ function integrateGoogleMaps(address) {
   );
 }
 
+function getCardinalDirection(angle) {
+  if (typeof angle === 'string') angle = parseInt(angle);
+  if (angle <= 0 || angle > 360 || typeof angle === 'undefined') return '☈';
+  var arrows = {
+    north: '↑ N',
+    north_east: '↗ NE',
+    east: '→ E',
+    south_east: '↘ SE',
+    south: '↓ S',
+    south_west: '↙ SW',
+    west: '← W',
+    north_west: '↖ NW'
+  };
+
+  var directions = Object.keys(arrows);
+  var degree = 360 / directions.length;
+  angle = angle + degree / 2;
+  for (var i = 0; i < directions.length; i++) {
+    if (angle >= i * degree && angle < (i + 1) * degree)
+      return arrows[directions[i]];
+  }
+  return arrows['north'];
+}
+
+console.log('cardinal direction', getCardinalDirection(60));
+
 function getVenues() {
   var date = moment().format('YYYYMMDD');
   var fsqId = 'KJJTGGS4TT053WQY0KCUNSE1F2E5OJD3VLFSPEE505GQ11WL';
@@ -136,87 +163,135 @@ function getVenues() {
     .get(fSqUrl)
     .then(function(res) {
       var data = res.data.response.venues;
-      console.log('venues: ', data);
       data.forEach(function(venue) {
         if (venue.categories[0]) {
-          var icon = venue.categories[0].icon.prefix + '64.png';
+          var icon = venue.categories[0].icon.prefix + 'bg_64.png';
           var category = venue.categories[0].name.toLowerCase();
           switch (true) {
             case category.includes('restaurant') || category.includes('grill'):
               console.log('restaurants: ', venue.name);
               console.log('icon: ', icon);
+              venues.push(`<li><img src="${icon}"> ${venue.name}</li>`);
               break;
             case category.includes('gallery'):
-              console.log('gallery: ', category);
+              console.log('gallery: ', venue.name);
+              console.log('icon: ', icon);
+              venues.push(`<li><img src="${icon}"> ${venue.name}</li>`);
               break;
             case category.includes('outdoor'):
-              console.log('outdoors: ', category);
+              console.log('outdoor: ', venue.name);
+              console.log('icon: ', icon);
+              venues.push(`<li><img src="${icon}"> ${venue.name}</li>`);
               break;
             case category.includes('park'):
-              console.log('park: ', category);
+              console.log('park: ', venue.name);
+              console.log('icon: ', icon);
+              venues.push(`<li><img src="${icon}"> ${venue.name}</li>`);
               break;
             case category.includes('coffee'):
-              console.log('coffee house: ', category);
+              console.log('coffee: ', venue.name);
+              console.log('icon: ', icon);
+              venues.push(`<li><img src="${icon}"> ${venue.name}</li>`);
               break;
             case category.includes('sport'):
-              console.log('sports: ', category);
+              console.log('sport: ', venue.name);
+              console.log('icon: ', icon);
+              venues.push(`<li><img src="${icon}"> ${venue.name}</li>`);
               break;
             case category.includes('yoga'):
-              console.log('yoga: ', category);
+              console.log('yoga: ', venue.name);
+              console.log('icon: ', icon);
+              venues.push(`<li><img src="${icon}"> ${venue.name}</li>`);
               break;
             case category.includes('gym'):
-              console.log('gym: ', category);
+              console.log('gym: ', venue.name);
+              console.log('icon: ', icon);
+              venues.push(`<li><img src="${icon}"> ${venue.name}</li>`);
               break;
             case category.includes('hotel'):
-              console.log('hotels: ', category);
+              console.log('hotel: ', venue.name);
+              console.log('icon: ', icon);
+              venues.push(`<li><img src="${icon}"> ${venue.name}</li>`);
               break;
             case category.includes('tour'):
-              console.log('tours: ', category);
+              console.log('tour: ', venue.name);
+              console.log('icon: ', icon);
+              venues.push(`<li><img src="${icon}"> ${venue.name}</li>`);
               break;
             case category.includes('transport'):
-              console.log('transportation: ', category);
+              console.log('transport: ', venue.name);
+              console.log('icon: ', icon);
+              venues.push(`<li><img src="${icon}"> ${venue.name}</li>`);
               break;
             case category.includes('bank'):
-              console.log('bank: ', category);
+              console.log('bank: ', venue.name);
+              console.log('icon: ', icon);
+              venues.push(`<li><img src="${icon}"> ${venue.name}</li>`);
               break;
             case category.includes('salon'):
-              console.log('salon: ', category);
+              console.log('salon: ', venue.name);
+              console.log('icon: ', icon);
+              venues.push(`<li><img src="${icon}"> ${venue.name}</li>`);
               break;
             case category.includes('gift'):
-              console.log('gift: ', category);
+              console.log('gift: ', venue.name);
+              console.log('icon: ', icon);
+              venues.push(`<li><img src="${icon}"> ${venue.name}</li>`);
               break;
             case category.includes('shop'):
-              console.log('shop: ', category);
+              console.log('shop: ', venue.name);
+              console.log('icon: ', icon);
+              venues.push(`<li><img src="${icon}"> ${venue.name}</li>`);
               break;
             case category.includes('food'):
-              console.log('food: ', category);
+              console.log('food: ', venue.name);
+              console.log('icon: ', icon);
+              venues.push(`<li><img src="${icon}"> ${venue.name}</li>`);
               break;
             case category.includes('museum'):
-              console.log('museum: ', category);
+              console.log('museum: ', venue.name);
+              console.log('icon: ', icon);
+              venues.push(`<li><img src="${icon}"> ${venue.name}</li>`);
               break;
             case category.includes('hall'):
-              console.log('hall: ', category);
+              console.log('hall: ', venue.name);
+              console.log('icon: ', icon);
+              venues.push(`<li><img src="${icon}"> ${venue.name}</li>`);
               break;
             case category.includes('auditorium'):
-              console.log('auditorium: ', category);
+              console.log('auditorium: ', venue.name);
+              console.log('icon: ', icon);
+              venues.push(`<li><img src="${icon}"> ${venue.name}</li>`);
               break;
             case category.includes('library'):
-              console.log('libraries: ', category);
+              console.log('library: ', venue.name);
+              console.log('icon: ', icon);
+              venues.push(`<li><img src="${icon}"> ${venue.name}</li>`);
               break;
             case category.includes('trail'):
-              console.log('trail: ', category);
+              console.log('trail: ', venue.name);
+              console.log('icon: ', icon);
+              venues.push(`<li><img src="${icon}"> ${venue.name}</li>`);
               break;
             case category.includes('ski'):
-              console.log('ski: ', category);
+              console.log('ski: ', venue.name);
+              console.log('icon: ', icon);
+              venues.push(`<li><img src="${icon}"> ${venue.name}</li>`);
               break;
             case category.includes('historic'):
-              console.log('historic: ', category);
+              console.log('historic: ', venue.name);
+              console.log('icon: ', icon);
+              venues.push(`<li><img src="${icon}"> ${venue.name}</li>`);
               break;
             case category.includes('landmark'):
-              console.log('landmark: ', category);
+              console.log('landmark: ', venue.name);
+              console.log('icon: ', icon);
+              venues.push(`<li><img src="${icon}"> ${venue.name}</li>`);
               break;
             case category.includes('monument'):
-              console.log('monument: ', category);
+              console.log('monument: ', venue.name);
+              console.log('icon: ', icon);
+              venues.push(`<li><img src="${icon}"> ${venue.name}</li>`);
               break;
           }
         }
@@ -235,6 +310,7 @@ go.addEventListener('click', function(e) {
     console.log('address: ', address);
     initializeMap();
     integrateGoogleMaps(address);
+    getVenues();
     locInput.value = '';
   } else if (address) {
     valAlert();
@@ -277,6 +353,8 @@ function getWeather() {
   axios
     .get(owUrl)
     .then(function(res) {
+      getVenues();
+      getTimeZone(lat, lng);
       display.innerHTML = '';
       var data = res.data;
       var tempMax = F
@@ -295,11 +373,15 @@ function getWeather() {
       console.log('iconId: ', iconId);
       var owIcon = `http://openweathermap.org/img/w/${iconId}.png`;
       var desc = data.weather[0].description;
-      getTimeZone(lat, lng);
       var sunrise = moment.unix(data.sys.sunrise).format('YYYY-MM-D HH:mm');
       var sunset = moment.unix(data.sys.sunset).format('YYYY-MM-D HH:mm');
-      console.log(sunrise, ' ', sunset, 'sunrise sunset');
-
+      //console.log(sunrise, ' ' sunset, 'sunrise sunset');
+      var windSpeed = _.round(data.wind.speed * 2.2369) + 'mph';
+      console.log('wind speed: ', windSpeed);
+      var windAngle = data.wind.deg;
+      console.log('windAngle: ', windAngle);
+      var windDirection = getCardinalDirection(windAngle);
+      console.log(windDirection);
       sunrise = moment(sunrise).tz(timeZone);
       sunset = moment(sunset).tz(timeZone);
       var sunriseTz = sunrise
@@ -310,27 +392,30 @@ function getWeather() {
         .clone()
         .tz(timeZone)
         .format('h:mm a');
-      console.log('Time Zone: ', timeZone);
-      console.log('sunriseTz: ', sunriseTz);
-      console.log('sunsetTz: ', sunsetTz);
       var tempOutput =
         tempMax !== tempMin
           ? `${tempMax}${degree} / ${tempMin}${degree}`
           : tempMax + degree;
       console.log('tempOutput: ', tempOutput);
+      var list = venues.join('');
+      console.log('VENUES: ', list);
+      venues = [];
       output.innerHTML = `
       <h4 class="text-center mt-2">${formattedAddress}</h4>
       <h5 class="time text-center mb-2">Local Time - ${localTime}</h5>
       <div class="row">
         <div class="col-sm venues">
-          <p>Venues Placeholder</p>
+        <h4>Venues</h4>
+          <ul class="venues">
+          ${list}
+          </ul>
         </div>
         <div class="col-sm weather">
-          <p>${tempOutput} 
+          <p>${tempOutput}</p>
           <p class="desc">${desc}</p>
           <p><img src="${owIcon}"></p>
-          </p>
           <p>Humidity: ${h}</p>
+          <p>Wind: ${windDirection} ${windSpeed}</p>
           <p>Sunrise: ${sunriseTz} / Sunset: ${sunsetTz}<p>
         </div>
       </div>
@@ -341,13 +426,6 @@ function getWeather() {
       console.log(error);
     });
 }
-
-// display.addEventListener('click', function(e) {
-//   if (e.target && e.target.classList.contains('fc')) {
-//     F = !F;
-//     getWeather();
-//   }
-// });
 
 document.addEventListener('click', function(e) {
   if (e.target && e.target.classList.contains('set-temp')) {

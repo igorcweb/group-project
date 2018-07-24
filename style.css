@@ -12,7 +12,8 @@ h1 {
 #map {
   height: 400px;
   width: 650px;
-  margin: auto;
+  margin: 0 auto;
+  margin-top: 20px;
 }
 
 .alert {
@@ -85,4 +86,13 @@ input:checked + label {
 
 p.desc {
   text-transform: capitalize;
+}
+
+ul.venues {
+  list-style: none;
+  background-color: #e2e2e2;
+}
+
+ul img {
+  width: 1.8rem;
 }
