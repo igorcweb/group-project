@@ -15,7 +15,7 @@ var marker;
 var map;
 var lat;
 var lng;
-var F = true; // Set degrees to Fahrenheit
+var f = true; // Set degrees to Fahrenheit
 var localTime;
 var mapDisplay = document.querySelector('#map');
 var sunrise;
@@ -36,8 +36,8 @@ var venues = [];
       lng = data.longitude;
       initializeMap();
       integrateGoogleMaps(address);
-      getVenues();
       getWeather();
+      getVenues();
     })
     .catch(function(error) {
       console.log(error);
@@ -119,6 +119,9 @@ function integrateGoogleMaps(address) {
               getTimeZone(lat, lng);
               getWeather();
             })
+            .then(function() {
+              getVenues();
+            })
             .catch(function(error) {
               console.log(error);
             });
@@ -156,8 +159,10 @@ console.log('cardinal direction', getCardinalDirection(60));
 
 function getVenues() {
   var date = moment().format('YYYYMMDD');
-  var fsqId = 'KJJTGGS4TT053WQY0KCUNSE1F2E5OJD3VLFSPEE505GQ11WL';
-  var fsqSecret = 'EJ3M4LML42LW3SWSALG0ZAQ4OJ3QESIY3BHHGVWRXCM4UQBK';
+  // var fsqId = 'KJJTGGS4TT053WQY0KCUNSE1F2E5OJD3VLFSPEE505GQ11WL';
+  // var fsqSecret = 'EJ3M4LML42LW3SWSALG0ZAQ4OJ3QESIY3BHHGVWRXCM4UQBK';
+  var fsqId = '5YSIJTHSTZH1IIYGA2C04SDNEV2LQTOQB3E4W0TQOI3114XG';
+  var fsqSecret = 'MA4KPK10BK15GJG10A52QX2ILMWWYZOCMXL44ELGUIVJERNZ';
   var fSqUrl = `https://api.foursquare.com/v2/venues/search?ll=${lat},${lng}&client_id=${fsqId}&client_secret=${fsqSecret}&v=${date}`;
 
   axios
@@ -195,7 +200,9 @@ function getVenues() {
           ) {
             //Limit list to 10 items
             if (venues.length < 10) {
-              venues.push(`<li><img src="${icon}"> ${venue.name}</li>`);
+              venues.push(
+                `<li class="venue"><img src="${icon}"> ${venue.name}</li>`
+              );
             }
           }
         }
@@ -206,6 +213,12 @@ function getVenues() {
     });
 }
 
+display.addEventListener('click', function(e) {
+  if (e.target && e.target.classList.contains('venue')) {
+    console.log(e.target);
+  }
+});
+
 go.addEventListener('click', function(e) {
   e.preventDefault();
   var regex = /^[a-zA-Z,. ]+$/;
@@ -215,6 +228,7 @@ go.addEventListener('click', function(e) {
     initializeMap();
     integrateGoogleMaps(address);
     getVenues();
+    getWeather();
     locInput.value = '';
   } else if (address) {
     valAlert();
@@ -261,13 +275,13 @@ function getWeather() {
       getTimeZone(lat, lng);
       display.innerHTML = '';
       var data = res.data;
-      var tempMax = F
+      var tempMax = f
         ? fahrenheit(data.main.temp_max)
         : celsius(data.main.temp_max);
-      var tempMin = F
+      var tempMin = f
         ? fahrenheit(data.main.temp_min)
         : celsius(data.main.temp_min);
-      var degree = F ? '°F' : '°C';
+      var degree = f ? '°F' : '°C';
       console.log(data);
       var h = data.main.humidity + '%';
       var output = document.createElement('div');
@@ -333,12 +347,7 @@ function getWeather() {
 
 document.addEventListener('click', function(e) {
   if (e.target && e.target.classList.contains('set-temp')) {
-    F = !F;
+    f = !f;
     getWeather();
   }
 });
-
-var timeStamp = moment().unix();
-var currentTime = moment.unix(timeStamp).format('MM/DD/YYYY h:mm:ss a');
-
-console.log('currentTime: ', currentTime);

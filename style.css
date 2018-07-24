@@ -97,6 +97,8 @@ ul img {
   width: 1.5rem;
 }
 
-li {
+li.venue {
   text-align: left;
+  cursor: pointer;
+  margin: 10px 0;
 }
