@@ -133,8 +133,8 @@ function integrateGoogleMaps(address) {
 }
 
 function getCardinalDirection(angle) {
-  // if (typeof angle === 'string') angle = parseInt(angle);
-  // if (angle <= 0 || angle > 360 || typeof angle === 'undefined') return '☈';
+  if (typeof angle === 'string') angle = parseInt(angle);
+  if (angle <= 0 || angle > 360 || typeof angle === 'undefined') return '☈';
   var arrows = {
     north: '↑ N',
     north_east: '↗ NE',
@@ -155,8 +155,6 @@ function getCardinalDirection(angle) {
   }
   return arrows['north'];
 }
-
-console.log('cardinal direction', getCardinalDirection(60));
 
 function getVenues() {
   var date = moment().format('YYYYMMDD');
@@ -300,7 +298,6 @@ function getWeather() {
       console.log('tempOutput: ', tempOutput);
       var list = venues.join('');
       console.log('VENUES: ', list);
-      venues = [];
       output.innerHTML = `
       <h4 class="text-center mt-2">${formattedAddress}</h4>
       <h5 class="time text-center mb-2">Local Time - ${localTime}</h5>
@@ -320,6 +317,7 @@ function getWeather() {
         </div>
       </div>
       `;
+      venues = [];
       display.appendChild(output);
     })
     .catch(function(error) {
@@ -336,7 +334,6 @@ go.addEventListener('click', function(e) {
     console.log('address: ', address);
     initializeMap();
     integrateGoogleMaps(address);
-    getVenues();
     getWeather();
     locInput.value = '';
   } else if (address) {
@@ -345,7 +342,7 @@ go.addEventListener('click', function(e) {
 });
 
 document.addEventListener('click', function(e) {
-  if (e.target && e.target.classList.contains('set-temp')) {
+  if (e.target && e.target.classList.contains('set-temp-input')) {
     f = !f;
     getWeather();
   }
