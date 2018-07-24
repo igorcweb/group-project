@@ -23,6 +23,7 @@ var sunset;
 var timeZone;
 var address;
 var venues = [];
+var zoom = 5;
 
 //Get data based on user's location
 (function getlocation() {
@@ -50,7 +51,7 @@ function initializeMap() {
       lat: parseFloat(lat),
       lng: parseFloat(lng)
     },
-    zoom: 5,
+    zoom: zoom,
     // disableDefaultUI: true,
     zoomControl: true
   };
@@ -132,8 +133,8 @@ function integrateGoogleMaps(address) {
 }
 
 function getCardinalDirection(angle) {
-  if (typeof angle === 'string') angle = parseInt(angle);
-  if (angle <= 0 || angle > 360 || typeof angle === 'undefined') return '☈';
+  // if (typeof angle === 'string') angle = parseInt(angle);
+  // if (angle <= 0 || angle > 360 || typeof angle === 'undefined') return '☈';
   var arrows = {
     north: '↑ N',
     north_east: '↗ NE',
@@ -200,8 +201,12 @@ function getVenues() {
           ) {
             //Limit list to 10 items
             if (venues.length < 10) {
+              lat = venue.location.lat;
+              lng = venue.location.lng;
               venues.push(
-                `<li class="venue"><img src="${icon}"> ${venue.name}</li>`
+                `<li class="venue" data-lat=${lat} data-lng=${lng}><img src="${icon}"> ${
+                  venue.name
+                }</li>`
               );
             }
           }
@@ -212,28 +217,6 @@ function getVenues() {
       console.log(error);
     });
 }
-
-display.addEventListener('click', function(e) {
-  if (e.target && e.target.classList.contains('venue')) {
-    console.log(e.target);
-  }
-});
-
-go.addEventListener('click', function(e) {
-  e.preventDefault();
-  var regex = /^[a-zA-Z,. ]+$/;
-  var address = locInput.value.replace('.', '').trim();
-  if (address.match(regex)) {
-    console.log('address: ', address);
-    initializeMap();
-    integrateGoogleMaps(address);
-    getVenues();
-    getWeather();
-    locInput.value = '';
-  } else if (address) {
-    valAlert();
-  }
-});
 
 function valAlert() {
   console.log('valAlert running');
@@ -323,7 +306,6 @@ function getWeather() {
       <h5 class="time text-center mb-2">Local Time - ${localTime}</h5>
       <div class="row">
         <div class="col-sm venues">
-        <h4>Venues</h4>
           <ul class="venues">
           ${list}
           </ul>
@@ -345,9 +327,53 @@ function getWeather() {
     });
 }
 
+go.addEventListener('click', function(e) {
+  e.preventDefault();
+  var regex = /^[a-zA-Z,. ]+$/;
+  var address = locInput.value.replace('.', '').trim();
+  if (address.match(regex)) {
+    zoom = 5;
+    console.log('address: ', address);
+    initializeMap();
+    integrateGoogleMaps(address);
+    getVenues();
+    getWeather();
+    locInput.value = '';
+  } else if (address) {
+    valAlert();
+  }
+});
+
 document.addEventListener('click', function(e) {
   if (e.target && e.target.classList.contains('set-temp')) {
     f = !f;
     getWeather();
+  }
+});
+
+display.addEventListener('click', function(e) {
+  if (e.target && e.target.classList.contains('venue')) {
+    lat = e.target.dataset.lat;
+    lng = e.target.dataset.lng;
+    zoom = 15;
+    initializeMap();
+    google.maps.event.addListener(marker, 'dragend', function() {
+      zoom = 15;
+      lat = marker.position.lat();
+      lng = marker.position.lng();
+      //Get address from coordinates with reverse geocoding
+      axios
+        .get(
+          `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=AIzaSyATPSbFvHa14zbdf5HYoPBO4jCwteR8GfM`
+        )
+        .then(function(res) {
+          address = res.data.results[0].formatted_address;
+          focusMap();
+          integrateGoogleMaps(address);
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+    });
   }
 });
