@@ -168,132 +168,35 @@ function getVenues() {
         if (venue.categories[0]) {
           var icon = venue.categories[0].icon.prefix + 'bg_64.png';
           var category = venue.categories[0].name.toLowerCase();
-          switch (true) {
-            case category.includes('restaurant') || category.includes('grill'):
-              console.log('restaurants: ', venue.name);
-              console.log('icon: ', icon);
+          if (
+            category.includes('restaurant') ||
+            category.includes('grill') ||
+            category.includes('gallery') ||
+            category.includes('park') ||
+            category.includes('coffee') ||
+            category.includes('food') ||
+            category.includes('sport') ||
+            category.includes('yoga') ||
+            category.includes('gym') ||
+            category.includes('hotel') ||
+            category.includes('transport') ||
+            category.includes('bank') ||
+            category.includes('salon') ||
+            category.includes('gift') ||
+            category.includes('shop') ||
+            category.includes('museum') ||
+            category.includes('hall') ||
+            category.includes('library') ||
+            category.includes('trail') ||
+            category.includes('ski') ||
+            category.includes('historic') ||
+            category.includes('landmark') ||
+            category.includes('monument')
+          ) {
+            //Limit list to 10 items
+            if (venues.length < 10) {
               venues.push(`<li><img src="${icon}"> ${venue.name}</li>`);
-              break;
-            case category.includes('gallery'):
-              console.log('gallery: ', venue.name);
-              console.log('icon: ', icon);
-              venues.push(`<li><img src="${icon}"> ${venue.name}</li>`);
-              break;
-            case category.includes('outdoor'):
-              console.log('outdoor: ', venue.name);
-              console.log('icon: ', icon);
-              venues.push(`<li><img src="${icon}"> ${venue.name}</li>`);
-              break;
-            case category.includes('park'):
-              console.log('park: ', venue.name);
-              console.log('icon: ', icon);
-              venues.push(`<li><img src="${icon}"> ${venue.name}</li>`);
-              break;
-            case category.includes('coffee'):
-              console.log('coffee: ', venue.name);
-              console.log('icon: ', icon);
-              venues.push(`<li><img src="${icon}"> ${venue.name}</li>`);
-              break;
-            case category.includes('sport'):
-              console.log('sport: ', venue.name);
-              console.log('icon: ', icon);
-              venues.push(`<li><img src="${icon}"> ${venue.name}</li>`);
-              break;
-            case category.includes('yoga'):
-              console.log('yoga: ', venue.name);
-              console.log('icon: ', icon);
-              venues.push(`<li><img src="${icon}"> ${venue.name}</li>`);
-              break;
-            case category.includes('gym'):
-              console.log('gym: ', venue.name);
-              console.log('icon: ', icon);
-              venues.push(`<li><img src="${icon}"> ${venue.name}</li>`);
-              break;
-            case category.includes('hotel'):
-              console.log('hotel: ', venue.name);
-              console.log('icon: ', icon);
-              venues.push(`<li><img src="${icon}"> ${venue.name}</li>`);
-              break;
-            case category.includes('tour'):
-              console.log('tour: ', venue.name);
-              console.log('icon: ', icon);
-              venues.push(`<li><img src="${icon}"> ${venue.name}</li>`);
-              break;
-            case category.includes('transport'):
-              console.log('transport: ', venue.name);
-              console.log('icon: ', icon);
-              venues.push(`<li><img src="${icon}"> ${venue.name}</li>`);
-              break;
-            case category.includes('bank'):
-              console.log('bank: ', venue.name);
-              console.log('icon: ', icon);
-              venues.push(`<li><img src="${icon}"> ${venue.name}</li>`);
-              break;
-            case category.includes('salon'):
-              console.log('salon: ', venue.name);
-              console.log('icon: ', icon);
-              venues.push(`<li><img src="${icon}"> ${venue.name}</li>`);
-              break;
-            case category.includes('gift'):
-              console.log('gift: ', venue.name);
-              console.log('icon: ', icon);
-              venues.push(`<li><img src="${icon}"> ${venue.name}</li>`);
-              break;
-            case category.includes('shop'):
-              console.log('shop: ', venue.name);
-              console.log('icon: ', icon);
-              venues.push(`<li><img src="${icon}"> ${venue.name}</li>`);
-              break;
-            case category.includes('food'):
-              console.log('food: ', venue.name);
-              console.log('icon: ', icon);
-              venues.push(`<li><img src="${icon}"> ${venue.name}</li>`);
-              break;
-            case category.includes('museum'):
-              console.log('museum: ', venue.name);
-              console.log('icon: ', icon);
-              venues.push(`<li><img src="${icon}"> ${venue.name}</li>`);
-              break;
-            case category.includes('hall'):
-              console.log('hall: ', venue.name);
-              console.log('icon: ', icon);
-              venues.push(`<li><img src="${icon}"> ${venue.name}</li>`);
-              break;
-            case category.includes('auditorium'):
-              console.log('auditorium: ', venue.name);
-              console.log('icon: ', icon);
-              venues.push(`<li><img src="${icon}"> ${venue.name}</li>`);
-              break;
-            case category.includes('library'):
-              console.log('library: ', venue.name);
-              console.log('icon: ', icon);
-              venues.push(`<li><img src="${icon}"> ${venue.name}</li>`);
-              break;
-            case category.includes('trail'):
-              console.log('trail: ', venue.name);
-              console.log('icon: ', icon);
-              venues.push(`<li><img src="${icon}"> ${venue.name}</li>`);
-              break;
-            case category.includes('ski'):
-              console.log('ski: ', venue.name);
-              console.log('icon: ', icon);
-              venues.push(`<li><img src="${icon}"> ${venue.name}</li>`);
-              break;
-            case category.includes('historic'):
-              console.log('historic: ', venue.name);
-              console.log('icon: ', icon);
-              venues.push(`<li><img src="${icon}"> ${venue.name}</li>`);
-              break;
-            case category.includes('landmark'):
-              console.log('landmark: ', venue.name);
-              console.log('icon: ', icon);
-              venues.push(`<li><img src="${icon}"> ${venue.name}</li>`);
-              break;
-            case category.includes('monument'):
-              console.log('monument: ', venue.name);
-              console.log('icon: ', icon);
-              venues.push(`<li><img src="${icon}"> ${venue.name}</li>`);
-              break;
+            }
           }
         }
       });
