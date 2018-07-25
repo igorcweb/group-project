@@ -24,6 +24,7 @@ var timeZone;
 var address;
 var venues = [];
 var zoom = 5;
+var output;
 
 setInterval(function() {
   var curTime = moment().format('hh:mm:ss a');
@@ -272,7 +273,7 @@ function getWeather() {
       var btnDegree = f ? '°C' : '°F';
       console.log(data);
       var h = data.main.humidity + '%';
-      var output = document.createElement('div');
+      output = document.createElement('div');
       output.setAttribute('class', 'text-center mt-2');
       //Only display min and max temperatures if they are different      iconId = data.weather[0].icon;
       var iconId = data.weather[0].icon;
@@ -303,7 +304,40 @@ function getWeather() {
       console.log('tempOutput: ', tempOutput);
       var list = venues.join('');
       console.log('VENUES: ', list);
-      output.innerHTML = `
+      renderData(
+        formattedAddress,
+        localTime,
+        list,
+        tempOutput,
+        btnDegree,
+        desc,
+        owIcon,
+        h,
+        windDirection,
+        windSpeed,
+        sunriseTz,
+        sunsetTz
+      );
+    })
+    .catch(function(error) {
+      console.log(error);
+    });
+
+  function renderData(
+    formattedAddress,
+    localTime,
+    list,
+    tempOutput,
+    btnDegree,
+    desc,
+    owIcon,
+    h,
+    windDirection,
+    windSpeed,
+    sunriseTz,
+    sunsetTz
+  ) {
+    output.innerHTML = `
       <div class="jumbotron jumbotron-fluid py-1 m-0">
         <h4>${formattedAddress}</h4>
         <h5 class="time text-center mb-2">Local Time - ${localTime}</h5>
@@ -324,12 +358,9 @@ function getWeather() {
         </div>
       </div>
       `;
-      venues = [];
-      display.appendChild(output);
-    })
-    .catch(function(error) {
-      console.log(error);
-    });
+    venues = [];
+    display.appendChild(output);
+  }
 }
 
 go.addEventListener('click', function(e) {
