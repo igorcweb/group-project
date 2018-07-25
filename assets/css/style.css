@@ -97,6 +97,14 @@ img.icon {
   width: 4rem;
 }
 
+/* Up to iPhone 5/SE */
+
+@media (min-width: 400) {
+  input[type='search'] {
+    width: 73%;
+    margin-right: 10px;
+  }
+}
 /* Small devices (landscape phones, 576px and up) */
 @media (min-width: 576px) {
   #map {
@@ -131,7 +139,7 @@ img.icon {
 /* Large devices (desktops, 992px and up) */
 @media (min-width: 992px) {
   div.clock {
-    font-size: 1.1rem;
+    font-size: 1.2rem;
   }
 }
 
