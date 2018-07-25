@@ -36,7 +36,7 @@ h1 {
   background: transparent;
 }
 
-div.time {
+div.clock {
   display: none;
 }
 
@@ -93,6 +93,10 @@ li.venue {
   margin: 10px 0;
 }
 
+img.icon {
+  width: 4rem;
+}
+
 /* Small devices (landscape phones, 576px and up) */
 @media (min-width: 576px) {
   #map {
@@ -105,7 +109,7 @@ li.venue {
   h1 {
     font-size: 2rem;
   }
-  div.time {
+  div.clock {
     display: inline-block;
   }
 
@@ -120,7 +124,7 @@ li.venue {
 
 /* Large devices (desktops, 992px and up) */
 @media (min-width: 992px) {
-  div.time {
+  div.clock {
     font-size: 1.1rem;
   }
 }

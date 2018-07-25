@@ -3,7 +3,7 @@
 var ow_api_key = '7b371ff33bf7c8589f05eb50e8efe90c';
 //Google Maps
 var gm_api_key = 'AIzaSyATPSbFvHa14zbdf5HYoPBO4jCwteR8GfM';
-var time = document.querySelector('.time');
+var clock = document.querySelector('.clock');
 var locInput = document.querySelector('#locInput');
 var go = document.querySelector('button[type=submit]');
 var alert = document.querySelector('.alert');
@@ -27,7 +27,7 @@ var zoom = 5;
 
 setInterval(function() {
   var curTime = moment().format('hh:mm:ss a');
-  time.innerHTML = `<p>${curTime}</p>`;
+  clock.innerHTML = `<p>${curTime}</p>`;
 }, 1000);
 
 //Get data based on user's location
@@ -122,11 +122,7 @@ function integrateGoogleMaps(address) {
               address = res.data.results[0].formatted_address;
               focusMap();
               integrateGoogleMaps(address);
-              getTimeZone(lat, lng);
               getWeather();
-            })
-            .then(function() {
-              getVenues();
             })
             .catch(function(error) {
               console.log(error);
@@ -167,10 +163,10 @@ function getCardinalDirection(angle) {
 
 function getVenues() {
   var date = moment().format('YYYYMMDD');
-  var fsqId = 'KJJTGGS4TT053WQY0KCUNSE1F2E5OJD3VLFSPEE505GQ11WL';
-  var fsqSecret = 'EJ3M4LML42LW3SWSALG0ZAQ4OJ3QESIY3BHHGVWRXCM4UQBK';
-  // var fsqId = '5YSIJTHSTZH1IIYGA2C04SDNEV2LQTOQB3E4W0TQOI3114XG';
-  // var fsqSecret = 'MA4KPK10BK15GJG10A52QX2ILMWWYZOCMXL44ELGUIVJERNZ';
+  // var fsqId = 'KJJTGGS4TT053WQY0KCUNSE1F2E5OJD3VLFSPEE505GQ11WL';
+  // var fsqSecret = 'EJ3M4LML42LW3SWSALG0ZAQ4OJ3QESIY3BHHGVWRXCM4UQBK';
+  var fsqId = '5YSIJTHSTZH1IIYGA2C04SDNEV2LQTOQB3E4W0TQOI3114XG';
+  var fsqSecret = 'MA4KPK10BK15GJG10A52QX2ILMWWYZOCMXL44ELGUIVJERNZ';
   var fSqUrl = `https://api.foursquare.com/v2/venues/search?ll=${lat},${lng}&client_id=${fsqId}&client_secret=${fsqSecret}&v=${date}`;
 
   axios
@@ -322,7 +318,7 @@ function getWeather() {
         <div class="col-sm weather order-1 order-sm2">
           <p>${tempOutput} |<span class="set-temp"> ${btnDegree} </span></p>
           <p class="desc">${desc}</p>
-          <p><img src="${owIcon}"></p>
+          <p><img class="icon" src="${owIcon}"></p>
           <p>Humidity: ${h}</p>
           <p>Wind: ${windDirection} ${windSpeed}</p>
           <p>Sunrise: ${sunriseTz} / Sunset: ${sunsetTz}<p>
