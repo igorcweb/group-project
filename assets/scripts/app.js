@@ -2,7 +2,7 @@
 // Open Weather
 var ow_api_key = '7b371ff33bf7c8589f05eb50e8efe90c';
 //Google Maps
-var gm_api_key = 'AIzaSyATPSbFvHa14zbdf5HYoPBO4jCwteR8GfM';
+var gm_api_key = 'AIzaSyCfs00ePAYrF_Nc-GLPS7-Q2g2F-orj9Ro';
 var clock = document.querySelector('.clock');
 var locInput = document.querySelector('#locInput');
 var go = document.querySelector('button[type=submit]');
@@ -78,13 +78,14 @@ function getTimeZone(lat, lng) {
   axios
     .get(tzUrl)
     .then(function(res) {
+      console.log('tz data: ', res.data.timeZoneId);
       timeZone = res.data.timeZoneId.toString();
-      //console.log('timezone: ', timeZone);
+      console.log('timezone: ', timeZone);
       localTime = moment.tz(timeZone).format('MMMM Do, h:mm a');
       console.log('local time: ', localTime);
     })
     .catch(function(error) {
-      console.log(error);
+      console.log('TZ error: ', error);
     });
 }
 function integrateGoogleMaps(address) {
@@ -105,9 +106,9 @@ function integrateGoogleMaps(address) {
         initializeMap();
         focusMap();
         focusMarker();
+        getTimeZone(lat, lng);
         getVenues();
         getWeather();
-        getTimeZone(lat, lng);
 
         google.maps.event.addListener(marker, 'dragend', function() {
           lat = marker.position.lat();
@@ -258,6 +259,7 @@ function getWeather() {
     .then(function(res) {
       getVenues();
       getTimeZone(lat, lng);
+      console.log('timeZone: ', timeZone);
       display.innerHTML = '';
       var data = res.data;
       var tempMax = f
@@ -274,20 +276,18 @@ function getWeather() {
       output.setAttribute('class', 'text-center mt-2');
       //Only display min and max temperatures if they are different      iconId = data.weather[0].icon;
       var iconId = data.weather[0].icon;
-      console.log('iconId: ', iconId);
       var owIcon = `http://openweathermap.org/img/w/${iconId}.png`;
       var desc = data.weather[0].description;
+      console.log('sunrise timestamp: ', data.sys.sunrise);
       var sunrise = moment.unix(data.sys.sunrise).format('YYYY-MM-D HH:mm');
       var sunset = moment.unix(data.sys.sunset).format('YYYY-MM-D HH:mm');
-      //console.log(sunrise, ' ' sunset, 'sunrise sunset');
       var windSpeed = Math.round(data.wind.speed * 2.2369) + ' mph';
-      console.log('wind speed: ', windSpeed);
       var windAngle = data.wind.deg;
-      console.log('windAngle: ', windAngle);
       var windDirection = getCardinalDirection(windAngle);
-      console.log(windDirection);
-      sunrise = moment(sunrise).tz(timeZone);
-      sunset = moment(sunset).tz(timeZone);
+      sunrise = moment.tz(sunrise, timeZone);
+      sunset = moment.tz(sunset, timeZone);
+      console.log('sunrise: ', sunrise);
+      console.log('timeZone: ', timeZone);
       var sunriseTz = sunrise
         .clone()
         .tz(timeZone)
@@ -309,12 +309,12 @@ function getWeather() {
         <h5 class="time text-center mb-2">Local Time - ${localTime}</h5>
       </div>
       <div class="row">
-        <div class="col-sm venues order-2 order-sm-1">
-          <ul class="venues list-group">
+        <div class="col-sm-5 offset-sm-1 venues order-2 order-sm-1">
+          <ul class="venues list-group my-3">
           ${list}
           </ul>
         </div>
-        <div class="col-sm weather order-1 order-sm2">
+        <div class="col-sm-5 weather order-1 order-sm2 my-3">
           <p>${tempOutput} |<span class="set-temp"> ${btnDegree} </span></p>
           <p class="desc">${desc}</p>
           <p><img class="icon" src="${owIcon}"></p>
@@ -338,7 +338,6 @@ go.addEventListener('click', function(e) {
   var address = locInput.value.replace('.', '').trim();
   if (address.match(regex)) {
     zoom = 5;
-    console.log('address: ', address);
     initializeMap();
     integrateGoogleMaps(address);
     getWeather();

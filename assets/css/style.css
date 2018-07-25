@@ -94,6 +94,7 @@ li.venue {
   cursor: pointer;
   padding: 3px;
   padding-left: 0;
+  text-transform: capitalize;
 }
 
 img.venue {
