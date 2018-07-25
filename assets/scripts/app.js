@@ -3,7 +3,7 @@
 var ow_api_key = '7b371ff33bf7c8589f05eb50e8efe90c';
 //Google Maps
 var gm_api_key = 'AIzaSyATPSbFvHa14zbdf5HYoPBO4jCwteR8GfM';
-
+var time = document.querySelector('.time');
 var locInput = document.querySelector('#locInput');
 var go = document.querySelector('button[type=submit]');
 var alert = document.querySelector('.alert');
@@ -24,6 +24,11 @@ var timeZone;
 var address;
 var venues = [];
 var zoom = 5;
+
+setInterval(function() {
+  var curTime = moment().format('hh:mm:ss a');
+  time.innerHTML = `<p>${curTime}</p>`;
+}, 1000);
 
 //Get data based on user's location
 (function getlocation() {
@@ -156,12 +161,16 @@ function getCardinalDirection(angle) {
   return arrows['north'];
 }
 
+//jb
+// var fsqId = 'KIM42M0LDXED1IRRX43F0CR2R43NMMXWUTHWIZUDKZC2F1KI';
+// var fsqSecret = 'XSELTNF1LWEKLEV1WLDN1TZTN2QYRDIX0TSIEOCXM0VIJM12';
+
 function getVenues() {
   var date = moment().format('YYYYMMDD');
-  // var fsqId = 'KJJTGGS4TT053WQY0KCUNSE1F2E5OJD3VLFSPEE505GQ11WL';
-  // var fsqSecret = 'EJ3M4LML42LW3SWSALG0ZAQ4OJ3QESIY3BHHGVWRXCM4UQBK';
-  var fsqId = '5YSIJTHSTZH1IIYGA2C04SDNEV2LQTOQB3E4W0TQOI3114XG';
-  var fsqSecret = 'MA4KPK10BK15GJG10A52QX2ILMWWYZOCMXL44ELGUIVJERNZ';
+  var fsqId = 'KJJTGGS4TT053WQY0KCUNSE1F2E5OJD3VLFSPEE505GQ11WL';
+  var fsqSecret = 'EJ3M4LML42LW3SWSALG0ZAQ4OJ3QESIY3BHHGVWRXCM4UQBK';
+  // var fsqId = '5YSIJTHSTZH1IIYGA2C04SDNEV2LQTOQB3E4W0TQOI3114XG';
+  // var fsqSecret = 'MA4KPK10BK15GJG10A52QX2ILMWWYZOCMXL44ELGUIVJERNZ';
   var fSqUrl = `https://api.foursquare.com/v2/venues/search?ll=${lat},${lng}&client_id=${fsqId}&client_secret=${fsqSecret}&v=${date}`;
 
   axios
@@ -199,6 +208,7 @@ function getVenues() {
           ) {
             //Limit list to 10 items
             if (venues.length < 10) {
+              // Get coordinates
               lat = venue.location.lat;
               lng = venue.location.lng;
               venues.push(
@@ -217,7 +227,6 @@ function getVenues() {
 }
 
 function valAlert() {
-  console.log('valAlert running');
   locInput.value = '';
   display.innerHTML = '';
   mapDisplay.classList.add('d-none');
@@ -263,6 +272,7 @@ function getWeather() {
         ? fahrenheit(data.main.temp_min)
         : celsius(data.main.temp_min);
       var degree = f ? '°F' : '°C';
+      var btnDegree = f ? '°C' : '°F';
       console.log(data);
       var h = data.main.humidity + '%';
       var output = document.createElement('div');
@@ -299,16 +309,18 @@ function getWeather() {
       var list = venues.join('');
       console.log('VENUES: ', list);
       output.innerHTML = `
-      <h4 class="text-center mt-2">${formattedAddress}</h4>
-      <h5 class="time text-center mb-2">Local Time - ${localTime}</h5>
+      <div class="jumbotron jumbotron-fluid py-1 m-0">
+        <h4>${formattedAddress}</h4>
+        <h5 class="time text-center mb-2">Local Time - ${localTime}</h5>
+      </div>
       <div class="row">
-        <div class="col-sm venues">
+        <div class="col-sm venues order-2 order-sm-1">
           <ul class="venues">
           ${list}
           </ul>
         </div>
-        <div class="col-sm weather">
-          <p>${tempOutput}</p>
+        <div class="col-sm weather order-1 order-sm2">
+          <p>${tempOutput} |<span class="set-temp"> ${btnDegree} </span></p>
           <p class="desc">${desc}</p>
           <p><img src="${owIcon}"></p>
           <p>Humidity: ${h}</p>
@@ -342,7 +354,7 @@ go.addEventListener('click', function(e) {
 });
 
 document.addEventListener('click', function(e) {
-  if (e.target && e.target.classList.contains('set-temp-input')) {
+  if (e.target && e.target.classList.contains('set-temp')) {
     f = !f;
     getWeather();
   }

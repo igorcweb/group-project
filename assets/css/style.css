@@ -1,0 +1,133 @@
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  color: #403f21;
+}
+
+.navbar {
+  /* background-color: #e1d4c0 !important; */
+  background-color: #5b7488 !important;
+  color: #f0e0c7;
+}
+
+.btn-outline-primary {
+  color: #f0e0c7;
+  border: 2px solid #f0e0c7;
+  font-weight: 500;
+}
+
+.btn-outline-primary:hover {
+  background-color: #f0e0c7;
+  color: #5b7488;
+  border-color: #5b7488;
+  font-weight: 500;
+}
+
+h1 {
+  font-weight: normal;
+  letter-spacing: 1px;
+  font-size: 1.5rem;
+}
+
+.jumbotron {
+  background: transparent;
+}
+
+div.time {
+  display: none;
+}
+
+input[type='search'] {
+  width: 74%;
+  margin-right: 10px;
+  margin-left: 0;
+}
+
+body {
+  background-image: url('../images/coast.png');
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+#map {
+  opacity: 0.7;
+  height: 400px;
+  width: 90%;
+  margin: 30px auto;
+}
+
+.alert {
+  border: 1px solid transparent;
+  border-radius: 4px;
+  color: #a94442;
+  background-color: #f2dede;
+  border-color: #ebccd1;
+  text-align: center;
+  width: fit-content;
+}
+
+.set-temp {
+  cursor: pointer;
+}
+
+p.desc {
+  text-transform: capitalize;
+}
+
+ul.venues {
+  list-style: none;
+  background-color: #e2e2e2;
+}
+
+ul img {
+  width: 1.5rem;
+}
+
+li.venue {
+  text-align: left;
+  cursor: pointer;
+  margin: 10px 0;
+}
+
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) {
+  #map {
+    width: 80%;
+  }
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+  h1 {
+    font-size: 2rem;
+  }
+  div.time {
+    display: inline-block;
+  }
+
+  #map {
+    width: 70%;
+  }
+
+  .form-inline {
+    margin-left: 15% !important;
+  }
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+  div.time {
+    font-size: 1.1rem;
+  }
+}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+  .form-inline {
+    margin-left: 18% !important;
+  }
+}

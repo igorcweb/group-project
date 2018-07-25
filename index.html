@@ -9,29 +9,33 @@
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B"
     crossorigin="anonymous">
-  <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="./assets/css/style.css">
   <title>API Playground</title>
 </head>
 
 <body>
-  <h1 class="text-center my-2">Open Weather and Google Maps API Playground</h1>
-  <div class="set-temp">
+  <header class="p-0 m-0">
+    <nav class="navbar navbar-light bg-light row">
+      <h1 class="ml-4">Mapster</h1>
+      <form class="form-inline col-8 col-md-5 col-lg-4 ml-sm-0">
+        <input class="form-control" type="search" id="locInput" placeholder="Enter Location" aria-label="Search">
+        <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Go</button>
+      </form>
+      <div class="time col-md-2  text-right mt-md-3">
+      </div>
+    </nav>
+  </header>
+  <!-- <div class="set-temp">
     <input class="set-temp-input" type="checkbox" value="none" id="setTemp" name="check" />
     <label for="setTemp"></label>
-  </div>
-  <form class="form-inline">
-    <div class="form-group mb-2 mx-auto">
-      <input type="text" class="form-control my-2" id="locInput" placeholder="Change Location">
-      <button type="submit" class="btn btn-primary ml-2">Go</button>
-    </div>
-
-  </form>
+  </div> -->
 
   <p class="alert mx-auto py-2 px-5 d-none">Please Enter Valid Location</p>
-  <div class="content">
-    <div id="display"></div>
-    <div id="map"></div>
-  </div>
+
+  <div id="display"></div>
+  <div id="map"></div>
+
+
 
 
 
@@ -55,7 +59,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
   <!-- Lodash -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.10/lodash.min.js"></script>
-  <script src="./script.js"></script>
+  <script src="./assets/scripts/app.js"></script>
 </body>
 
 </html>
