@@ -78,9 +78,11 @@ p.desc {
 }
 
 ul.venues {
+  width: 90%;
+  margin: 0 auto;
   list-style: none;
   background-color: #e2e2e2;
-  opacity: 0.7;
+  opacity: 0.8;
 }
 
 ul img {
@@ -90,7 +92,12 @@ ul img {
 li.venue {
   text-align: left;
   cursor: pointer;
-  margin: 10px 0;
+  padding: 3px;
+  padding-left: 0;
+}
+
+img.venue {
+  margin: 0 5px;
 }
 
 img.icon {
@@ -116,6 +123,14 @@ img.icon {
   .jumbotron h5 {
     font-size: 1.7rem;
   }
+  ul.venues {
+    width: fit-content;
+    margin-left: 30px;
+  }
+
+  li.venue {
+    padding-right: 30px;
+  }
 }
 
 /* Medium devices (tablets, 768px and up) */
@@ -133,6 +148,9 @@ img.icon {
 
   .form-inline {
     margin-left: 15% !important;
+  }
+  li.venue {
+    padding-right: 15px;
   }
 }
 

@@ -207,7 +207,7 @@ function getVenues() {
               lat = venue.location.lat;
               lng = venue.location.lng;
               venues.push(
-                `<li class="venue" data-lat=${lat} data-lng=${lng}><img src="${icon}"> ${
+                `<li class="venue list-group-item list-group-item-action" data-lat=${lat} data-lng=${lng}><img class="venue" src="${icon}"> ${
                   venue.name
                 }</li>`
               );
@@ -310,7 +310,7 @@ function getWeather() {
       </div>
       <div class="row">
         <div class="col-sm venues order-2 order-sm-1">
-          <ul class="venues">
+          <ul class="venues list-group">
           ${list}
           </ul>
         </div>
