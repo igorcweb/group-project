@@ -158,10 +158,6 @@ function getCardinalDirection(angle) {
   return arrows['north'];
 }
 
-//jb
-// var fsqId = 'KIM42M0LDXED1IRRX43F0CR2R43NMMXWUTHWIZUDKZC2F1KI';
-// var fsqSecret = 'XSELTNF1LWEKLEV1WLDN1TZTN2QYRDIX0TSIEOCXM0VIJM12';
-
 function getVenues() {
   var date = moment().format('YYYYMMDD');
   // var fsqId = 'KJJTGGS4TT053WQY0KCUNSE1F2E5OJD3VLFSPEE505GQ11WL';
@@ -258,7 +254,6 @@ function getWeather() {
   axios
     .get(owUrl)
     .then(function(res) {
-      getVenues();
       getTimeZone(lat, lng);
       console.log('timeZone: ', timeZone);
       display.innerHTML = '';
@@ -272,7 +267,7 @@ function getWeather() {
       var degree = f ? '°F' : '°C';
       var btnDegree = f ? '°C' : '°F';
       console.log(data);
-      var h = data.main.humidity + '%';
+      var humidity = data.main.humidity + '%';
       output = document.createElement('div');
       output.setAttribute('class', 'text-center mt-2');
       //Only display min and max temperatures if they are different      iconId = data.weather[0].icon;
@@ -285,6 +280,7 @@ function getWeather() {
       var windSpeed = Math.round(data.wind.speed * 2.2369) + ' mph';
       var windAngle = data.wind.deg;
       var windDirection = getCardinalDirection(windAngle);
+      console.log('formatted sunrise: ', sunrise);
       sunrise = moment.tz(sunrise, timeZone);
       sunset = moment.tz(sunset, timeZone);
       console.log('sunrise: ', sunrise);
@@ -293,6 +289,7 @@ function getWeather() {
         .clone()
         .tz(timeZone)
         .format('h:mm a');
+      console.log('sunriseTz: ', sunriseTz);
       var sunsetTz = sunset
         .clone()
         .tz(timeZone)
@@ -302,6 +299,7 @@ function getWeather() {
           ? `${tempMax}${degree} / ${tempMin}${degree}`
           : tempMax + degree;
       console.log('tempOutput: ', tempOutput);
+      getVenues();
       var list = venues.join('');
       console.log('VENUES: ', list);
       renderData(
@@ -312,7 +310,7 @@ function getWeather() {
         btnDegree,
         desc,
         owIcon,
-        h,
+        humidity,
         windDirection,
         windSpeed,
         sunriseTz,
@@ -331,7 +329,7 @@ function getWeather() {
     btnDegree,
     desc,
     owIcon,
-    h,
+    humidity,
     windDirection,
     windSpeed,
     sunriseTz,
@@ -352,7 +350,7 @@ function getWeather() {
           <p>${tempOutput} |<span class="set-temp"> ${btnDegree} </span></p>
           <p class="desc">${desc}</p>
           <p><img class="icon" src="${owIcon}"></p>
-          <p>Humidity: ${h}</p>
+          <p>Humidity: ${humidity}</p>
           <p>Wind: ${windDirection} ${windSpeed}</p>
           <p>Sunrise: ${sunriseTz} / Sunset: ${sunsetTz}<p>
         </div>
