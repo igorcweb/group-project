@@ -42,7 +42,6 @@ setInterval(function() {
       lng = data.longitude;
       initializeMap();
       integrateGoogleMaps(address);
-      getWeather();
       getVenues();
     })
     .catch(function(error) {
@@ -184,6 +183,10 @@ function getVenues() {
             category.includes('park') ||
             category.includes('coffee') ||
             category.includes('food') ||
+            category.includes('historic') ||
+            category.includes('landmark') ||
+            category.includes('monument') ||
+            category.includes('ski') ||
             category.includes('sport') ||
             category.includes('yoga') ||
             category.includes('gym') ||
@@ -196,11 +199,7 @@ function getVenues() {
             category.includes('museum') ||
             category.includes('hall') ||
             category.includes('library') ||
-            category.includes('trail') ||
-            category.includes('ski') ||
-            category.includes('historic') ||
-            category.includes('landmark') ||
-            category.includes('monument')
+            category.includes('trail')
           ) {
             //Limit list to 10 items
             if (venues.length < 10) {
@@ -244,12 +243,12 @@ function focusMarker() {
 }
 
 function celsius(tempKelvin) {
-  var celsius = _.round(tempKelvin - 273.15);
+  var celsius = Math.round(tempKelvin - 273.15);
   return celsius;
 }
 
 function fahrenheit(tempKelvin) {
-  var fahrenheit = _.round((tempKelvin - 273.15) * 1.8 + 32);
+  var fahrenheit = Math.round((tempKelvin - 273.15) * 1.8 + 32);
   return fahrenheit;
 }
 
@@ -281,7 +280,7 @@ function getWeather() {
       var sunrise = moment.unix(data.sys.sunrise).format('YYYY-MM-D HH:mm');
       var sunset = moment.unix(data.sys.sunset).format('YYYY-MM-D HH:mm');
       //console.log(sunrise, ' ' sunset, 'sunrise sunset');
-      var windSpeed = _.round(data.wind.speed * 2.2369) + 'mph';
+      var windSpeed = Math.round(data.wind.speed * 2.2369) + ' mph';
       console.log('wind speed: ', windSpeed);
       var windAngle = data.wind.deg;
       console.log('windAngle: ', windAngle);
