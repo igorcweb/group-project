@@ -1,3 +1,5 @@
+@import url(https://fonts.googleapis.com/css?family=Cabin:700);
+
 html,
 body {
   height: 100%;
@@ -55,7 +57,7 @@ body {
   opacity: 0.7;
   height: 400px;
   width: 90%;
-  margin: 30px auto;
+  margin: 50px auto;
 }
 
 .alert {
@@ -105,6 +107,125 @@ img.icon {
   width: 4rem;
 }
 
+/* Logo */
+
+.circle-container {
+  font-family: cabin, sans-serif;
+  position: relative;
+  perspective: 1000;
+  margin-top: 10px;
+  margin-bottom: 8px;
+}
+
+.circle-container:hover .circle {
+  transform: rotate3d(45, 45, 0, 180deg);
+}
+
+.circle-container:hover .outer-ring {
+  transform: rotate3d(45, 0, 0, 180deg);
+}
+
+.circle-container:hover .outer-outer-ring {
+  transform: rotate3d(0, 45, 0, 180deg);
+}
+
+.circle-container,
+.front,
+.back {
+  width: 80px;
+  height: 80px;
+  background-color: rgba(0, 0, 0, 0);
+}
+
+.circle,
+.outer-ring,
+.outer-outer-ring {
+  transition: 0.5s;
+  transform-style: preserve-3d;
+  transition-timing-function: cubic-bezier(0.785, 0.135, 0.15, 0.86);
+}
+
+.circle {
+  position: relative;
+  width: 100px;
+  height: 100px;
+}
+
+.front,
+.back {
+  border-radius: 50%;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.4);
+  backface-visibility: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.front {
+  background-color: lightgrey;
+  z-index: 2;
+}
+
+/* .front p {
+  margin-top: 0.01em;
+  font-weight: 700;
+  text-align: center;
+  color: #444;
+  font-size: 4rem;
+} */
+.front p {
+  margin-top: 0.01em;
+  font-weight: 700;
+  text-align: center;
+  color: #444;
+  font-size: 4rem;
+}
+
+.back {
+  transform: rotate3d(45, 45, 0, 180deg);
+  background-color: lightgrey;
+  font-size: 1.8em;
+}
+
+.back p {
+  text-align: center;
+  /* margin-top: 1em; */
+  color: #444;
+  font-size: 4rem;
+}
+
+.outer-ring {
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  width: 100px;
+  height: 100px;
+  background-color: lightblue;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.4);
+}
+
+.outer-outer-ring {
+  position: absolute;
+  top: -20px;
+  left: -20px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  width: 90px;
+  height: 90px;
+  background-color: rgba(255, 255, 255, 0);
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.4);
+}
+
+#apster {
+  display: none;
+  position: absolute;
+  transform: translateY(-50%);
+  top: 50%;
+  left: 135px;
+}
+
 /* Up to iPhone 5/SE */
 
 @media (min-width: 400) {
@@ -144,7 +265,7 @@ img.icon {
   }
 
   #map {
-    width: 70%;
+    width: 75%;
   }
 
   .form-inline {
@@ -153,12 +274,20 @@ img.icon {
   li.venue {
     padding-right: 15px;
   }
+
+  span#apster {
+    display: inline-block;
+  }
 }
 
 /* Large devices (desktops, 992px and up) */
 @media (min-width: 992px) {
   div.clock {
     font-size: 1.2rem;
+  }
+
+  #map {
+    width: 78%;
   }
 }
 

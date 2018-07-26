@@ -2,7 +2,7 @@
 // Open Weather
 var ow_api_key = '7b371ff33bf7c8589f05eb50e8efe90c';
 //Google Maps
-var gm_api_key = 'AIzaSyCfs00ePAYrF_Nc-GLPS7-Q2g2F-orj9Ro';
+var gm_api_key = 'AIzaSyARF6nY2h1NJte18_3LHs6rVKbWu-xEejw';
 var clock = document.querySelector('.clock');
 var locInput = document.querySelector('#locInput');
 var go = document.querySelector('button[type=submit]');
@@ -281,8 +281,8 @@ function getWeather() {
       var windAngle = data.wind.deg;
       var windDirection = getCardinalDirection(windAngle);
       console.log('formatted sunrise: ', sunrise);
-      sunrise = moment.tz(sunrise, timeZone);
-      sunset = moment.tz(sunset, timeZone);
+      sunrise = moment.tz(moment(sunrise).format(), timeZone);
+      sunset = moment.tz(moment(sunset).format(), timeZone);
       console.log('sunrise: ', sunrise);
       console.log('timeZone: ', timeZone);
       var sunriseTz = sunrise

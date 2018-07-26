@@ -17,7 +17,25 @@
 <body>
   <header class="p-0 m-0">
     <nav class="navbar navbar-light bg-light row">
-      <h1 class="ml-4">Mapster</h1>
+      <h1 class="ml-4">
+        <span>
+          <div class="circle-container">
+            <div class="outer-ring"></div>
+            <!-- Used for more of a gyroscope type effect
+                 <div class="outer-outer-ring"></div>
+                 -->
+            <div class="circle">
+              <div class="front">
+                <p>M</p>
+              </div>
+              <div class="back">
+                <p>M</p>
+              </div>
+            </div>
+          </div>
+        </span>
+        <span id="apster">apster</span>
+      </h1>
       <form class="form-inline col-8 col-md-5 col-lg-4 ml-sm-0">
         <input class="form-control" type="search" id="locInput" placeholder="Enter Location" aria-label="Search">
         <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Go</button>
