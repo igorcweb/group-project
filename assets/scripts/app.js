@@ -271,7 +271,6 @@ function getWeather() {
       var humidity = data.main.humidity + '%';
       output = document.createElement('div');
       output.setAttribute('class', 'text-center mt-2');
-      //Only display min and max temperatures if they are different      iconId = data.weather[0].icon;
       var iconId = data.weather[0].icon;
       var owIcon = `http://openweathermap.org/img/w/${iconId}.png`;
       var desc = data.weather[0].description;
@@ -295,6 +294,7 @@ function getWeather() {
         .clone()
         .tz(timeZone)
         .format('h:mm a');
+      //Only display min and max temperatures if they are different
       var tempOutput =
         tempMax !== tempMin
           ? `${tempMax}${degree} / ${tempMin}${degree}`
@@ -342,18 +342,17 @@ function getWeather() {
         <h5 class="time text-center mb-2">Local Time - ${localTime}</h5>
       </div>
       <div class="row">
-        <div class="col-sm-5 offset-sm-1 venues order-2 order-sm-1">
+        <div class="col venues order-2 order-sm-1">
           <ul class="venues list-group my-3">
           ${list}
           </ul>
         </div>
-        <div class="col-sm-5 weather order-1 order-sm2 my-3">
-          <p>${tempOutput} |<span class="set-temp"> ${btnDegree} </span></p>
+        <div class="col-lg-3 col-md-4 col-sm-5 offset-md-1 weather order-1 order-sm2 my-3">
           <p class="desc">${desc}</p>
           <p><img class="icon" src="${owIcon}"></p>
-          <p>Humidity: ${humidity}</p>
-          <p>Wind: ${windDirection} ${windSpeed}</p>
-          <p>Sunrise: ${sunriseTz} / Sunset: ${sunsetTz}<p>
+          <p class="temp">${tempOutput} |<span class="set-temp"> ${btnDegree} </span></p>
+          <p class="humidity">Humidity: ${humidity}, Wind: ${windDirection} ${windSpeed}</p>
+          <p class="sun">Sunrise: ${sunriseTz} / Sunset: ${sunsetTz}<p>
         </div>
       </div>
       `;

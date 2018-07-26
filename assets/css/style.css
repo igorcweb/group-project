@@ -4,7 +4,7 @@ body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  color: #403f21;
+  color: #4d4925;
 }
 
 .navbar {
@@ -74,6 +74,11 @@ body {
 
 p.desc {
   text-transform: capitalize;
+  font-size: 1.875rem;
+}
+
+p.temp {
+  font-size: 1.25rem;
 }
 
 ul.venues {
@@ -84,16 +89,25 @@ ul.venues {
   opacity: 0.8;
 }
 
+div.weather {
+  background-color: rgba(103, 133, 157, 0.2);
+  width: 85%;
+  margin-right: auto;
+  margin-left: auto;
+}
+
 ul img {
   width: 1.5rem;
 }
 
-li.venue {
+li.list-group-item {
   text-align: left;
   cursor: pointer;
   padding: 3px;
   padding-left: 0;
   text-transform: capitalize;
+  background-color: rgba(103, 133, 157, 0.2);
+  border-radius: 0 !important;
 }
 
 a {
@@ -106,6 +120,10 @@ img.venue {
 
 img.icon {
   width: 4rem;
+}
+
+p.sun {
+  font-size: 1.1rem;
 }
 
 /* Logo */
@@ -252,6 +270,17 @@ img.icon {
   li.venue {
     padding-right: 30px;
   }
+
+  div.weather {
+    width: 100%;
+    margin-right: 5%;
+  }
+  div.venues {
+  }
+
+  #map {
+    width: 90%;
+  }
 }
 
 /* Medium devices (tablets, 768px and up) */
@@ -278,6 +307,12 @@ img.icon {
     display: inline-block;
     left: 105px;
   }
+  div.venues {
+    margin-left: 5%;
+  }
+  div.weather {
+    margin-right: 10%;
+  }
 }
 
 /* Large devices (desktops, 992px and up) */
@@ -291,7 +326,14 @@ img.icon {
   }
 
   #map {
-    width: 78%;
+    width: 70%;
+  }
+
+  div.venues {
+    margin-left: 12%;
+  }
+  div.weather {
+    margin-right: 17%;
   }
 }
 
@@ -299,5 +341,14 @@ img.icon {
 @media (min-width: 1200px) {
   .form-inline {
     margin-left: 27% !important;
+  }
+  div.venues {
+    margin-left: 18%;
+  }
+  div.weather {
+    margin-right: 22%;
+  }
+  #map {
+    width: 60%;
   }
 }
