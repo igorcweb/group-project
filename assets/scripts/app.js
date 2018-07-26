@@ -100,7 +100,7 @@ function integrateGoogleMaps(address) {
     function(results, status) {
       if (status === google.maps.GeocoderStatus.OK) {
         //some formatted addresses have numbers in them - this clears them out
-        formattedAddress = results[0].formatted_address.replace(/[0-9]/g, '');
+        formattedAddress = results[0].formatted_address;
         lat = results[0].geometry.location.lat();
         lng = results[0].geometry.location.lng();
         owUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&APPID=${ow_api_key}`;
@@ -272,7 +272,7 @@ function getWeather() {
       output = document.createElement('div');
       output.setAttribute('class', 'text-center mt-2');
       var iconId = data.weather[0].icon;
-      var owIcon = `http://openweathermap.org/img/w/${iconId}.png`;
+      var owIcon = `https://openweathermap.org/img/w/${iconId}.png`;
       var desc = data.weather[0].description;
       console.log('sunrise timestamp: ', data.sys.sunrise);
       var sunrise = moment.unix(data.sys.sunrise).format('YYYY-MM-D HH:mm');
