@@ -264,7 +264,7 @@ img.icon {
   }
 
   .form-inline {
-    margin-left: 15% !important;
+    margin-left: 18% !important;
   }
   li.venue {
     padding-right: 15px;
@@ -282,6 +282,10 @@ img.icon {
     font-size: 1.2rem;
   }
 
+  .form-inline {
+    margin-left: 20% !important;
+  }
+
   #map {
     width: 78%;
   }
@@ -290,6 +294,6 @@ img.icon {
 /* Extra large devices (large desktops, 1200px and up) */
 @media (min-width: 1200px) {
   .form-inline {
-    margin-left: 18% !important;
+    margin-left: 27% !important;
   }
 }
