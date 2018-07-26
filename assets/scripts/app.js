@@ -26,6 +26,7 @@ var venues = [];
 var zoom = 5;
 var output;
 
+//Clock
 setInterval(function() {
   var curTime = moment().format('hh:mm:ss a');
   clock.innerHTML = `<p>${curTime}</p>`;

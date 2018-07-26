@@ -96,6 +96,10 @@ li.venue {
   text-transform: capitalize;
 }
 
+a {
+  text-decoration: none !important;
+}
+
 img.venue {
   margin: 0 5px;
 }
