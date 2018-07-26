@@ -1,5 +1,3 @@
-@import url(https://fonts.googleapis.com/css?family=Cabin:700);
-
 html,
 body {
   height: 100%;
@@ -10,7 +8,6 @@ body {
 }
 
 .navbar {
-  /* background-color: #e1d4c0 !important; */
   background-color: #5b7488 !important;
   color: #f0e0c7;
 }
@@ -112,9 +109,10 @@ img.icon {
 .circle-container {
   font-family: cabin, sans-serif;
   position: relative;
+  left: 40%;
   perspective: 1000;
-  margin-top: 10px;
-  margin-bottom: 8px;
+  margin-top: 8px;
+  font-family: 'Itim', cursive;
 }
 
 .circle-container:hover .circle {
@@ -132,8 +130,8 @@ img.icon {
 .circle-container,
 .front,
 .back {
-  width: 80px;
-  height: 80px;
+  width: 50px;
+  height: 50px;
   background-color: rgba(0, 0, 0, 0);
 }
 
@@ -147,8 +145,8 @@ img.icon {
 
 .circle {
   position: relative;
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
 }
 
 .front,
@@ -162,36 +160,28 @@ img.icon {
 }
 
 .front {
-  background-color: lightgrey;
+  background-color: #f0e0c7;
   z-index: 2;
 }
 
-/* .front p {
-  margin-top: 0.01em;
-  font-weight: 700;
-  text-align: center;
-  color: #444;
-  font-size: 4rem;
-} */
 .front p {
-  margin-top: 0.01em;
   font-weight: 700;
   text-align: center;
-  color: #444;
-  font-size: 4rem;
+  font-size: 2.5rem;
+  color: #5b7488;
 }
 
 .back {
   transform: rotate3d(45, 45, 0, 180deg);
-  background-color: lightgrey;
-  font-size: 1.8em;
+  background-color: #5b7488;
+  font-size: 2.5rem;
 }
 
 .back p {
+  font-weight: 700;
   text-align: center;
-  /* margin-top: 1em; */
-  color: #444;
-  font-size: 4rem;
+  font-size: 2.5rem;
+  color: #f0e0c7;
 }
 
 .outer-ring {
@@ -200,8 +190,8 @@ img.icon {
   left: -10px;
   border-radius: 50%;
   border: 2px solid #fff;
-  width: 100px;
-  height: 100px;
+  width: 70px;
+  height: 70px;
   background-color: lightblue;
   box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.4);
 }
@@ -212,13 +202,15 @@ img.icon {
   left: -20px;
   border-radius: 50%;
   border: 2px solid #fff;
-  width: 90px;
-  height: 90px;
+  width: 80px;
+  height: 80px;
   background-color: rgba(255, 255, 255, 0);
   box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.4);
 }
 
 #apster {
+  font-family: 'Itim', cursive;
+  font-size: 2.5rem;
   display: none;
   position: absolute;
   transform: translateY(-50%);
@@ -236,6 +228,9 @@ img.icon {
 }
 /* Small devices (landscape phones, 576px and up) */
 @media (min-width: 576px) {
+  .circle-container {
+    left: 0;
+  }
   #map {
     width: 80%;
   }
@@ -277,6 +272,7 @@ img.icon {
 
   span#apster {
     display: inline-block;
+    left: 105px;
   }
 }
 
