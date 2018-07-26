@@ -366,20 +366,11 @@ go.addEventListener('click', function(e) {
   var regex = /^[a-zA-Z,. ]+$/;
   var address = locInput.value.replace('.', '').trim();
   if (address.match(regex)) {
-    console.log('coordinates: ', lat, lng);
     zoom = 5;
-    axios
-      .get(
-        `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=AIzaSyATPSbFvHa14zbdf5HYoPBO4jCwteR8GfM`
-      )
-      .then(function(res) {
-        address = res.data.results[0].formatted_address;
-        focusMap();
-        integrateGoogleMaps(address);
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
+    initializeMap();
+    integrateGoogleMaps(address);
+    getWeather();
+    getVenues();
     locInput.value = '';
   } else {
     valAlert();
