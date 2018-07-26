@@ -205,9 +205,9 @@ function getVenues() {
               lat = venue.location.lat;
               lng = venue.location.lng;
               venues.push(
-                `<li class="venue list-group-item list-group-item-action" data-lat=${lat} data-lng=${lng}><img class="venue" src="${icon}"> ${
+                `<a href="#map"><li class="venue list-group-item list-group-item-action" data-lat=${lat} data-lng=${lng}><img class="venue" src="${icon}"> ${
                   venue.name
-                }</li>`
+                }</li></a>`
               );
             }
           }
