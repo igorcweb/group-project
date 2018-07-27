@@ -15,7 +15,7 @@ var marker;
 var map;
 var lat;
 var lng;
-var f = true; // Set degrees to Fahrenheit
+var f = true; // Set weather to Fahrenheit
 var localTime;
 var mapDisplay = document.querySelector('#map');
 var sunrise;
@@ -28,7 +28,7 @@ var output;
 
 //Clock
 setInterval(function() {
-  var curTime = moment().format('hh:mm:ss a');
+  var curTime = moment().format('h:mm:ss a');
   clock.innerHTML = `<p>${curTime}</p>`;
 }, 1000);
 
@@ -42,7 +42,6 @@ setInterval(function() {
       address = `${data.city}, ${data.country_name}`;
       lat = data.latitude;
       lng = data.longitude;
-      initializeMap();
       integrateGoogleMaps(address);
       getVenues();
     })
@@ -58,7 +57,6 @@ function initializeMap() {
       lng: parseFloat(lng)
     },
     zoom: zoom,
-    // disableDefaultUI: true,
     zoomControl: true
   };
 
@@ -75,16 +73,13 @@ function initializeMap() {
     draggable: true
   });
 }
-function getTimeZone(lat, lng) {
+function getTimeZone() {
   var tzUrl = `https://maps.googleapis.com/maps/api/timezone/json?location=${lat},${lng}&timestamp=1458000000&key=${gm_api_key}`;
   axios
     .get(tzUrl)
     .then(function(res) {
-      console.log('tz data: ', res.data.timeZoneId);
       timeZone = res.data.timeZoneId.toString();
-      console.log('timezone: ', timeZone);
       localTime = moment.tz(timeZone).format('MMMM Do, h:mm a');
-      console.log('local time: ', localTime);
     })
     .catch(function(error) {
       console.log('TZ error: ', error);
@@ -99,7 +94,6 @@ function integrateGoogleMaps(address) {
     },
     function(results, status) {
       if (status === google.maps.GeocoderStatus.OK) {
-        //some formatted addresses have numbers in them - this clears them out
         formattedAddress = results[0].formatted_address;
         lat = results[0].geometry.location.lat();
         lng = results[0].geometry.location.lng();
@@ -108,10 +102,8 @@ function integrateGoogleMaps(address) {
         initializeMap();
         focusMap();
         focusMarker();
-        getTimeZone(lat, lng);
-        getVenues();
+        getTimeZone();
         getWeather();
-
         google.maps.event.addListener(marker, 'dragend', function() {
           lat = marker.position.lat();
           lng = marker.position.lng();
@@ -161,10 +153,10 @@ function getCardinalDirection(angle) {
 
 function getVenues() {
   var date = moment().format('YYYYMMDD');
-  var fsqId = 'KJJTGGS4TT053WQY0KCUNSE1F2E5OJD3VLFSPEE505GQ11WL';
-  var fsqSecret = 'EJ3M4LML42LW3SWSALG0ZAQ4OJ3QESIY3BHHGVWRXCM4UQBK';
-  // var fsqId = '5YSIJTHSTZH1IIYGA2C04SDNEV2LQTOQB3E4W0TQOI3114XG';
-  // var fsqSecret = 'MA4KPK10BK15GJG10A52QX2ILMWWYZOCMXL44ELGUIVJERNZ';
+  // var fsqId = 'KJJTGGS4TT053WQY0KCUNSE1F2E5OJD3VLFSPEE505GQ11WL';
+  // var fsqSecret = 'EJ3M4LML42LW3SWSALG0ZAQ4OJ3QESIY3BHHGVWRXCM4UQBK';
+  var fsqId = '5YSIJTHSTZH1IIYGA2C04SDNEV2LQTOQB3E4W0TQOI3114XG';
+  var fsqSecret = 'MA4KPK10BK15GJG10A52QX2ILMWWYZOCMXL44ELGUIVJERNZ';
   var fSqUrl = `https://api.foursquare.com/v2/venues/search?ll=${lat},${lng}&client_id=${fsqId}&client_secret=${fsqSecret}&v=${date}`;
 
   axios
@@ -255,8 +247,7 @@ function getWeather() {
   axios
     .get(owUrl)
     .then(function(res) {
-      getTimeZone(lat, lng);
-      console.log('timeZone: ', timeZone);
+      getTimeZone();
       display.innerHTML = '';
       var data = res.data;
       var tempMax = f
@@ -267,29 +258,23 @@ function getWeather() {
         : celsius(data.main.temp_min);
       var degree = f ? '°F' : '°C';
       var btnDegree = f ? '°C' : '°F';
-      console.log(data);
       var humidity = data.main.humidity + '%';
       output = document.createElement('div');
       output.setAttribute('class', 'text-center mt-2');
       var iconId = data.weather[0].icon;
       var owIcon = `https://openweathermap.org/img/w/${iconId}.png`;
       var desc = data.weather[0].description;
-      console.log('sunrise timestamp: ', data.sys.sunrise);
       var sunrise = moment.unix(data.sys.sunrise).format('YYYY-MM-D HH:mm');
       var sunset = moment.unix(data.sys.sunset).format('YYYY-MM-D HH:mm');
       var windSpeed = Math.round(data.wind.speed * 2.2369) + ' mph';
       var windAngle = data.wind.deg;
       var windDirection = getCardinalDirection(windAngle);
-      console.log('formatted sunrise: ', sunrise);
       sunrise = moment.tz(moment(sunrise).format(), timeZone);
       sunset = moment.tz(moment(sunset).format(), timeZone);
-      console.log('sunrise: ', sunrise);
-      console.log('timeZone: ', timeZone);
       var sunriseTz = sunrise
         .clone()
         .tz(timeZone)
         .format('h:mm a');
-      console.log('sunriseTz: ', sunriseTz);
       var sunsetTz = sunset
         .clone()
         .tz(timeZone)
@@ -299,7 +284,6 @@ function getWeather() {
         tempMax !== tempMin
           ? `${tempMax}${degree} / ${tempMin}${degree}`
           : tempMax + degree;
-      console.log('tempOutput: ', tempOutput);
       getVenues();
       var list = venues.join('');
       console.log('VENUES: ', list);
@@ -321,22 +305,24 @@ function getWeather() {
     .catch(function(error) {
       console.log(error);
     });
+}
 
-  function renderData(
-    formattedAddress,
-    localTime,
-    list,
-    tempOutput,
-    btnDegree,
-    desc,
-    owIcon,
-    humidity,
-    windDirection,
-    windSpeed,
-    sunriseTz,
-    sunsetTz
-  ) {
-    output.innerHTML = `
+function renderData(
+  formattedAddress,
+  localTime,
+  list,
+  tempOutput,
+  btnDegree,
+  desc,
+  owIcon,
+  humidity,
+  windDirection,
+  windSpeed,
+  sunriseTz,
+  sunsetTz
+) {
+  console.log('render is running');
+  output.innerHTML = `
       <div class="jumbotron jumbotron-fluid py-1 m-0">
         <h4>${formattedAddress}</h4>
         <h5 class="time text-center mb-2">Local Time - ${localTime}</h5>
@@ -356,11 +342,11 @@ function getWeather() {
         </div>
       </div>
       `;
-    venues = [];
-    display.appendChild(output);
-  }
+  venues = [];
+  display.appendChild(output);
 }
 
+//Input Button
 go.addEventListener('click', function(e) {
   e.preventDefault();
   var regex = /^[a-zA-Z,. ]+$/;
@@ -370,13 +356,13 @@ go.addEventListener('click', function(e) {
     initializeMap();
     integrateGoogleMaps(address);
     getWeather();
-    getVenues();
     locInput.value = '';
-  } else {
+  } else if (address) {
     valAlert();
   }
 });
 
+//Temperature Button
 document.addEventListener('click', function(e) {
   if (e.target && e.target.classList.contains('set-temp')) {
     f = !f;
@@ -384,6 +370,7 @@ document.addEventListener('click', function(e) {
   }
 });
 
+//Venues Click Listener
 display.addEventListener('click', function(e) {
   if (e.target && e.target.classList.contains('venue')) {
     lat = e.target.dataset.lat;
