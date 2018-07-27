@@ -321,6 +321,7 @@ function renderData(
   sunriseTz,
   sunsetTz
 ) {
+  display.innerHTML = '';
   console.log('render is running');
   output.innerHTML = `
       <div class="jumbotron jumbotron-fluid py-1 m-0">
