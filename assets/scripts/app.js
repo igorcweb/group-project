@@ -23,7 +23,7 @@ var sunset;
 var timeZone;
 var address;
 var venues = [];
-var zoom = 5;
+var zoom = 7;
 var output;
 
 //Clock
@@ -190,7 +190,8 @@ function getVenues() {
             category.includes('museum') ||
             category.includes('hall') ||
             category.includes('library') ||
-            category.includes('trail')
+            category.includes('trail') ||
+            category.includes('spa')
           ) {
             //Limit list to 10 items
             if (venues.length < 10) {
@@ -356,7 +357,7 @@ go.addEventListener('click', function(e) {
   var regex = /^[a-zA-Z,. ]+$/;
   var address = locInput.value.replace('.', '').trim();
   if (address.match(regex)) {
-    zoom = 5;
+    zoom = 7;
     initializeMap();
     integrateGoogleMaps(address);
     setTimeout(getWeather, 500);
