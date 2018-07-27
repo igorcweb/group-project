@@ -287,6 +287,9 @@ function getWeather() {
       getVenues();
       var list = venues.join('');
       console.log('VENUES: ', list);
+      if (!list) {
+        getWeather();
+      }
       renderData(
         formattedAddress,
         localTime,
@@ -356,7 +359,7 @@ go.addEventListener('click', function(e) {
     zoom = 5;
     initializeMap();
     integrateGoogleMaps(address);
-    setTimeout(getWeather, 800);
+    setTimeout(getWeather, 500);
     locInput.value = '';
   } else if (address) {
     valAlert();
@@ -391,6 +394,7 @@ display.addEventListener('click', function(e) {
           address = res.data.results[0].formatted_address;
           focusMap();
           integrateGoogleMaps(address);
+          setTimeout(getWeather, 500);
         })
         .catch(function(error) {
           console.log(error);
