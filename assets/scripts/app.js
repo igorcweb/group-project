@@ -107,7 +107,7 @@ function integrateGoogleMaps(address) {
         google.maps.event.addListener(marker, 'dragend', function() {
           lat = marker.position.lat();
           lng = marker.position.lng();
-          //Get address from coordinates with reverse geocoding
+          // Get address from coordinates with reverse geocoding
           axios
             .get(
               `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=AIzaSyATPSbFvHa14zbdf5HYoPBO4jCwteR8GfM`
@@ -153,10 +153,10 @@ function getCardinalDirection(angle) {
 
 function getVenues() {
   var date = moment().format('YYYYMMDD');
-  // var fsqId = 'KJJTGGS4TT053WQY0KCUNSE1F2E5OJD3VLFSPEE505GQ11WL';
-  // var fsqSecret = 'EJ3M4LML42LW3SWSALG0ZAQ4OJ3QESIY3BHHGVWRXCM4UQBK';
-  var fsqId = '5YSIJTHSTZH1IIYGA2C04SDNEV2LQTOQB3E4W0TQOI3114XG';
-  var fsqSecret = 'MA4KPK10BK15GJG10A52QX2ILMWWYZOCMXL44ELGUIVJERNZ';
+  var fsqId = 'KJJTGGS4TT053WQY0KCUNSE1F2E5OJD3VLFSPEE505GQ11WL';
+  var fsqSecret = 'EJ3M4LML42LW3SWSALG0ZAQ4OJ3QESIY3BHHGVWRXCM4UQBK';
+  // var fsqId = '5YSIJTHSTZH1IIYGA2C04SDNEV2LQTOQB3E4W0TQOI3114XG';
+  // var fsqSecret = 'MA4KPK10BK15GJG10A52QX2ILMWWYZOCMXL44ELGUIVJERNZ';
   var fSqUrl = `https://api.foursquare.com/v2/venues/search?ll=${lat},${lng}&client_id=${fsqId}&client_secret=${fsqSecret}&v=${date}`;
 
   axios
@@ -356,7 +356,7 @@ go.addEventListener('click', function(e) {
     zoom = 5;
     initializeMap();
     integrateGoogleMaps(address);
-    getWeather();
+    setTimeout(getWeather, 800);
     locInput.value = '';
   } else if (address) {
     valAlert();

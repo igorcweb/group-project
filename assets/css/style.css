@@ -251,7 +251,7 @@ p.sun {
 /* Small devices (landscape phones, 576px and up) */
 @media (min-width: 576px) {
   .circle-container {
-    left: 0;
+    left: 1%;
   }
   #map {
     width: 80%;
@@ -301,6 +301,8 @@ p.sun {
   }
   li.venue {
     padding-right: 15px;
+    max-width: 370px;
+    min-width: 290px;
   }
 
   span#apster {
