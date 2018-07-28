@@ -31,6 +31,8 @@ h1 {
 
 .jumbotron {
   background: transparent;
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 700;
 }
 
 div.clock {
@@ -74,6 +76,7 @@ body {
 
 p.desc {
   text-transform: capitalize;
+  font-family: 'Roboto Slab', serif;
   font-size: 1.875rem;
 }
 
@@ -101,6 +104,7 @@ ul img {
 }
 
 li.list-group-item {
+  font-family: 'Hind Madurai', sans-serif;
   text-align: left;
   cursor: pointer;
   padding: 3px;
@@ -268,14 +272,13 @@ p.sun {
   }
 
   li.venue {
+    font-size: 1.1rem;
     padding-right: 30px;
   }
 
   div.weather {
     width: 100%;
     margin-right: 5%;
-  }
-  div.venues {
   }
 
   #map {
