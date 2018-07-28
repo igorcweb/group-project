@@ -1,6 +1,6 @@
 'use strict';
 (function() {
-  // Open Weather
+  //Open Weather
   var ow_api_key = '7b371ff33bf7c8589f05eb50e8efe90c';
   //Google Maps
   var gm_api_key = 'AIzaSyARF6nY2h1NJte18_3LHs6rVKbWu-xEejw';
@@ -154,8 +154,10 @@
     var date = moment().format('YYYYMMDD');
     // var fsqId = 'KJJTGGS4TT053WQY0KCUNSE1F2E5OJD3VLFSPEE505GQ11WL';
     // var fsqSecret = 'EJ3M4LML42LW3SWSALG0ZAQ4OJ3QESIY3BHHGVWRXCM4UQBK';
-    var fsqId = 'KIM42M0LDXED1IRRX43F0CR2R43NMMXWUTHWIZUDKZC2F1KI';
-    var fsqSecret = 'XSELTNF1LWEKLEV1WLDN1TZTN2QYRDIX0TSIEOCXM0VIJM12';
+    // var fsqId = 'KIM42M0LDXED1IRRX43F0CR2R43NMMXWUTHWIZUDKZC2F1KI';
+    // var fsqSecret = 'XSELTNF1LWEKLEV1WLDN1TZTN2QYRDIX0TSIEOCXM0VIJM12';
+    var fsqId = 'DYQZLBSPANW4NYFXQTM5CPYSHMZONZ1A42HFLPNP2BQB3S4U';
+    var fsqSecret = '0JDHRDEI3GWQ21MWWDEOVRNLFQ0RUHKP5CACM5D5VF1HDXKP';
     var fSqUrl = `https://api.foursquare.com/v2/venues/search?ll=${lat},${lng}&client_id=${fsqId}&client_secret=${fsqSecret}&v=${date}`;
 
     axios
@@ -170,7 +172,7 @@
               category.includes('restaurant') ||
               category.includes('grill') ||
               category.includes('gallery') ||
-              category.includes('park') ||
+              (category.includes('park') && !category.includes('parking')) ||
               category.includes('coffee') ||
               category.includes('food') ||
               category.includes('historic') ||
