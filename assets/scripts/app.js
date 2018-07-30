@@ -9,7 +9,6 @@
   var go = document.querySelector('button[type=submit]');
   var alert = document.querySelector('.alert');
   var display = document.querySelector('#display');
-  var venues = document.querySelector('.venues');
   var owUrl;
   var formattedAddress;
   var marker;
