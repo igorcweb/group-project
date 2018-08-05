@@ -2,6 +2,8 @@
 (function() {
   //Open Weather
   var ow_api_key = '7b371ff33bf7c8589f05eb50e8efe90c';
+  // var ow_api_key = '874dc6e62ffb6c0e170725fb128a88d6';
+  // var ow_api_key = '73fcbe6c9d572f580e2d82aa8001b067';
   //Google Maps
   var gm_api_key = 'AIzaSyARF6nY2h1NJte18_3LHs6rVKbWu-xEejw';
   var clock = document.querySelector('.clock');
@@ -151,12 +153,14 @@
 
   function getVenues() {
     var date = moment().format('YYYYMMDD');
-    var fsqId = 'KJJTGGS4TT053WQY0KCUNSE1F2E5OJD3VLFSPEE505GQ11WL';
-    var fsqSecret = 'EJ3M4LML42LW3SWSALG0ZAQ4OJ3QESIY3BHHGVWRXCM4UQBK';
+    // var fsqId = 'KJJTGGS4TT053WQY0KCUNSE1F2E5OJD3VLFSPEE505GQ11WL';
+    // var fsqSecret = 'EJ3M4LML42LW3SWSALG0ZAQ4OJ3QESIY3BHHGVWRXCM4UQBK';
     // var fsqId = 'KIM42M0LDXED1IRRX43F0CR2R43NMMXWUTHWIZUDKZC2F1KI';
     // var fsqSecret = 'XSELTNF1LWEKLEV1WLDN1TZTN2QYRDIX0TSIEOCXM0VIJM12';
     // var fsqId = 'DYQZLBSPANW4NYFXQTM5CPYSHMZONZ1A42HFLPNP2BQB3S4U';
     // var fsqSecret = '0JDHRDEI3GWQ21MWWDEOVRNLFQ0RUHKP5CACM5D5VF1HDXKP';
+    var fsqId = '5YSIJTHSTZH1IIYGA2C04SDNEV2LQTOQB3E4W0TQOI3114XG';
+    var fsqSecret = 'MA4KPK10BK15GJG10A52QX2ILMWWYZOCMXL44ELGUIVJERNZ';
     var fSqUrl = `https://api.foursquare.com/v2/venues/search?ll=${lat},${lng}&client_id=${fsqId}&client_secret=${fsqSecret}&v=${date}`;
 
     axios
@@ -289,7 +293,8 @@
         var list = venues.join('');
         console.log('VENUES: ', list);
         if (!list) {
-          getWeather();
+          list =
+            '<p class="alert">No venues found. Please try a different location</p>';
         }
         renderData(
           formattedAddress,

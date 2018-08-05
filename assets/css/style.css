@@ -92,6 +92,10 @@ ul.venues {
   opacity: 0.8;
 }
 
+ul.venues p.alert {
+  margin: 0;
+}
+
 div.weather {
   background-color: rgba(103, 133, 157, 0.2);
   width: 85%;
