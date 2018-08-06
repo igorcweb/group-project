@@ -294,7 +294,7 @@
         console.log('VENUES: ', list);
         if (!list) {
           list =
-            '<p class="alert">No venues found. Please try a different location</p>';
+            '<p class="alert">No venues found. Please try entering or moving the marker to a different location</p>';
         }
         renderData(
           formattedAddress,
