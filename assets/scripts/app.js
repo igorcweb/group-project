@@ -2,8 +2,6 @@
 (function() {
   //Open Weather
   var ow_api_key = '7b371ff33bf7c8589f05eb50e8efe90c';
-  // var ow_api_key = '874dc6e62ffb6c0e170725fb128a88d6';
-  // var ow_api_key = '73fcbe6c9d572f580e2d82aa8001b067';
   //Google Maps
   var gm_api_key = 'AIzaSyARF6nY2h1NJte18_3LHs6rVKbWu-xEejw';
   var clock = document.querySelector('.clock');
@@ -247,7 +245,7 @@
     var fahrenheit = Math.round((tempKelvin - 273.15) * 1.8 + 32);
     return fahrenheit;
   }
-
+  var counter = 0;
   function getWeather() {
     axios
       .get(owUrl)
@@ -292,7 +290,11 @@
         getVenues();
         var list = venues.join('');
         console.log('VENUES: ', list);
-        if (!list) {
+
+        if (!list & (counter < 3)) {
+          counter++;
+          getWeather();
+        } else if (!list) {
           list =
             '<p class="alert">No venues found. Please try entering or moving the marker to a different location</p>';
         }
