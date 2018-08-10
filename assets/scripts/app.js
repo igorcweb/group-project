@@ -291,12 +291,13 @@
         var list = venues.join('');
         console.log('VENUES: ', list);
 
-        if (!list & (counter < 3)) {
+        if (!list & (counter < 5)) {
           counter++;
           getWeather();
         } else if (!list) {
           list =
             '<p class="alert">No venues found. Please try entering or moving the marker to a different location</p>';
+          counter = 0;
         }
         renderData(
           formattedAddress,
