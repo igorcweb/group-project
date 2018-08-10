@@ -295,8 +295,10 @@
           counter++;
           getWeather();
         } else if (!list) {
+          counter = 0;
           list =
             '<p class="alert">No venues found. Please try entering or moving the marker to a different location</p>';
+        } else {
           counter = 0;
         }
         renderData(
