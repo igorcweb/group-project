@@ -31,22 +31,20 @@
   }, 1000);
 
   //Get data based on user's location
-  (function getlocation() {
-    var geoIpUrl = 'https://geoip-db.com/json/';
-    axios
-      .get(geoIpUrl)
-      .then(function(res) {
-        var data = res.data;
-        address = `${data.city}, ${data.country_name}`;
-        lat = data.latitude;
-        lng = data.longitude;
-        integrateGoogleMaps(address);
-        getVenues();
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
-  })();
+  var geoIpUrl = 'https://geoip-db.com/json/';
+  axios
+    .get(geoIpUrl)
+    .then(function(res) {
+      var data = res.data;
+      address = `${data.city}, ${data.country_name}`;
+      lat = data.latitude;
+      lng = data.longitude;
+      integrateGoogleMaps(address);
+      getVenues();
+    })
+    .catch(function(error) {
+      console.log(error);
+    });
 
   function initializeMap() {
     var mapOptions = {
